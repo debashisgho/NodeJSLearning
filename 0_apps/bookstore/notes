@@ -1,0 +1,60 @@
+
+- first create package.json file by using command npm init.
+- open package.json and populate the dependencies tag.
+- to install the dependencies npm install
+- install bower to manage dependency of the client side components
+  (Bower is similar to npm on server side)
+  npm install -g bower
+
+ - using bower install the following client side libraries in the project
+   install them in the /public folder
+    bower install --save bootstrap angular angular-route jquery
+
+    (it was found that bower requires Git to run these commands. So Git was installed in the machine and the bower commands were run from the git bash from the /public directory)
+    
+ Mongo Database objects
+----------------------
+- create the database - 	use 'bookstore';
+- create the collections
+	db.createCollection('books')
+	db.createCollection('genres')
+
+-insert into genres
+	db.genres.insert(
+	{"name":"Suspense"}
+	)
+
+	db.genres(
+	{"name":"Self Help"}
+	)
+
+	db.genres.insert(
+	{"name":"Crime"}
+	)
+
+- insert into books
+	db.books.insert(
+	{
+	 "title" : "The Murder House", 
+	 "genre" : "Suspense", 
+	 "description" : "This is a desciprtion about the book The Murder house. Enjoy reading it" ,
+	 "author":"James Patterson",
+	 "publisher":"Little Brown and company",
+	 "pages":"480",
+	 "image_url":"http://prodimage.images-bn.com/pimages/9781455589906_p0_v1_s192x300.jpg",
+	 "buy_url":"http://www.barnesandnoble.com/w/the-murder-house-james-patterson/1120873479?ean=9781455589906"
+	 }
+	 )
+
+	 db.books.insert(
+	{
+	 "title" : "Truth or Die", 
+	 "genre" : "Suspense", 
+	 "description" : "This is a desciprtion about the book Truth or Die. Enjoy reading it" ,
+	 "author":"James Patterson",
+	 "publisher":"Grand Central Publishing",
+	 "pages":"416",
+	 "image_url":"http://prodimage.images-bn.com/pimages/9781455584963_p0_v1_s192x300.jpg",
+	 "buy_url":"http://www.barnesandnoble.com/w/truth-or-die-james-patterson/1120509003?ean=9781455584963"
+	 }
+	 )
