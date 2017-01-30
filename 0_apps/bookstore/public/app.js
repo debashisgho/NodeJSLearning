@@ -1,27 +1,30 @@
 var myApp = angular.module('myApp',['ngRoute']);
 
-myApp.config(function($routeProvider){
+myApp.config(function($routeProvider,$locationProvider){
 	$routeProvider.when('/', {
 		controller:'BooksController',
-		templateUrl: 'views/books.html'
+		templateUrl: '/views/books.html'
 	})
 	.when('/books', {
 		controller:'BooksController',
-		templateUrl: 'views/books.html'
+		templateUrl: '/views/books.html'
 	})
 	.when('/books/details/:id',{
 		controller:'BooksController',
-		templateUrl: 'views/book_details.html'
+		templateUrl: '/views/book_details.html'
 	})
 	.when('/books/add',{
 		controller:'BooksController',
-		templateUrl: 'views/add_book.html'
+		templateUrl: '/views/add_book.html'
 	})
 	.when('/books/edit/:id',{
 		controller:'BooksController',
-		templateUrl: 'views/edit_book.html'
+		templateUrl: '/views/edit_book.html'
 	})
 	.otherwise({
 		redirectTo: '/'
 	});
+
+	$locationProvider.html5Mode(true);
+
 });

@@ -5,18 +5,18 @@ myApp.controller('BooksController', ['$scope', '$http', '$location', '$routePara
 
 	$scope.getBooks = function(){
 		$http.get('/bookstore/api/books').then(function(response){
-			$scope.books = response.data;		
-			console.log(response);	
+			$scope.books = response.data;			
 		});
 	}
 
-	/*$scope.getBook = function(){
+	$scope.getBook = function(){
 		var id = $routeParams.id;
-		$http.get('/api/books/'+id).success(function(response){
-			$scope.book = response;
+		$http.get('/bookstore/api/books/'+id).then(function(response){
+			$scope.book = response.data;
 		});
 	}
 
+/*
 	$scope.addBook = function(){
 		console.log($scope.book);
 		$http.post('/api/books/', $scope.book).success(function(response){
