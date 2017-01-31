@@ -23,17 +23,17 @@ myApp.controller('BooksController', ['$scope', '$http', '$location', '$routePara
 			window.location.href='#/books';
 		});
 	}
-/*
+
 	$scope.updateBook = function(){
 		var id = $routeParams.id;
-		$http.put('/api/books/'+id, $scope.book).success(function(response){
+		$http.put('/bookstore/api/books/'+id, $scope.book).then(function(response){
 			window.location.href='#/books';
 		});
 	}
 
 	$scope.removeBook = function(id){
-		$http.delete('/api/books/'+id).success(function(response){
+		$http.delete('/bookstore/api/books/'+id).then(function(response){
 			window.location.href='#/books';
 		});
-	}*/
+	}
 }]);
