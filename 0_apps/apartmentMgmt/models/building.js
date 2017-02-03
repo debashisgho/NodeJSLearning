@@ -4,8 +4,7 @@ var mongoose = require('mongoose');
 var buildingSchema = mongoose.Schema({
 
 	name:
-        {type: String, required: true, trim: true}
-  	},
+        {type: String, required: true, trim: true},
 
   	contact:
   		{
@@ -20,7 +19,7 @@ var buildingSchema = mongoose.Schema({
 			floors:[{
 				num:{type:String,required:true},
 				rooms:[{
-					type : ObjectId, ref: 'Room',required:true
+					type : mongoose.Schema.Types.ObjectId, ref: 'Room',required:true
 				}]
 			}]
 		}]
@@ -43,7 +42,7 @@ var buildingSchema = mongoose.Schema({
 	associatedEmails:[{type:String,required:true,trim:true}],
 	committeeMembers:[{
 			designation:{type:String, required:true,trim:true},
-			user_id:{type : ObjectId, ref: 'User',requred: true},
+			user_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
 	}],
 
 

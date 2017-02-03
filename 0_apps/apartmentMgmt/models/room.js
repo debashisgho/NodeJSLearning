@@ -4,17 +4,16 @@ var mongoose = require('mongoose');
 var roomSchema = mongoose.Schema({
 
 	roomNo:
-        {type: String, required: true, trim: true}
-  	},
+        {type: String, required: true, trim: true},
 
   	tower:
-		{type: String, required:true, trim:true},
+		{type: String, required: true, trim:true},
 	
 	floorNo:
 		{type: String, trim: true},
 
 	building:
-		{ type : ObjectId, ref: 'Building'},
+		{ type : mongoose.Schema.Types.ObjectId, ref: 'Building'},
 	
 	area_details:{
 		area:{type: Number, required:true, trim:true},
@@ -24,12 +23,12 @@ var roomSchema = mongoose.Schema({
 	owner_details:{ 
 
 			current:{				
-				  	  id:{type : ObjectId, ref: 'User',requred: true},
+				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
 					  fromDate:{type:Date,required:true},
 			},		
 
 			previous:[{
-				id:{type : ObjectId, ref: 'User',requred: true},
+				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
 				fromDate:{type:Date,required:true},
 				toDate:{type:Date,required:true}
 			}]
@@ -39,12 +38,12 @@ var roomSchema = mongoose.Schema({
 	rent_details:{ 
 
 			current:{				
-				  	  id:{type : ObjectId, ref: 'user',requred: true},
+				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
 					  from:{type:Date,required:true},
 			},		
 
 			previous:[{
-					  id:{type : ObjectId, ref: 'user',requred: true},
+					  id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
 					  fromDate:{type:Date,required:true},
 				      toDate:{type:Date,required:true}
 			}]
