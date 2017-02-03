@@ -14,10 +14,17 @@ var userSchema = mongoose.Schema({
 
 	phone:
 		{
-			primary:{type: String, required : false, trim:true},
-			alternate:[{type: String, required: false, trim:true}]
+			primary:{type: String, trim:true},
+			alternate:[{type: String, trim:true}]
 		},
-		
+
+	hased_pwd:{type:String, required:true},
+
+	temp_pwd:{type: String},
+
+	temp_pwd_time:{type: String},
+
+
 	create_date:{
 		type:Date, default: Date.now
 	}

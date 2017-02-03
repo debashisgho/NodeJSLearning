@@ -6,32 +6,30 @@ var roomSchema = mongoose.Schema({
 	roomNo:
         {type: String, required: true, trim: true}
   	},
+
+  	tower:
+		{type: String, required:true, trim:true},
 	
 	floorNo:
-		{type: String, required: false, trim: true},
+		{type: String, trim: true},
 
-	buildings:
-		{ type : ObjectId, ref: 'building'},
+	building:
+		{ type : ObjectId, ref: 'Building'},
 	
 	area_details:{
 		area:{type: Number, required:true, trim:true},
 		measurementUnit:{type: String}
-	}
-		
-
-	create_date:{
-		type:Date, default: Date.now
-	},
+	},	
 
 	owner_details:{ 
 
 			current:{				
-				  	  id:{type : ObjectId, ref: 'user',requred: true},
+				  	  id:{type : ObjectId, ref: 'User',requred: true},
 					  fromDate:{type:Date,required:true},
 			},		
 
 			previous:[{
-				id:{type : ObjectId, ref: 'user',requred: true},
+				id:{type : ObjectId, ref: 'User',requred: true},
 				fromDate:{type:Date,required:true},
 				toDate:{type:Date,required:true}
 			}]
@@ -51,11 +49,15 @@ var roomSchema = mongoose.Schema({
 				      toDate:{type:Date,required:true}
 			}]
 			
-		},	
+		},				
+
+	create_date:{
+		type:Date, default: Date.now
+	}
 
 });
 
 
-var User = mongoose.model('User',userSchema);
+var Room = mongoose.model('Room',roomSchema);
 
-module.exports = User ;
+module.exports = Room ;
