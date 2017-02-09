@@ -2,6 +2,7 @@ var expressApp = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser')
 
+
 Room = require('./models/room');
 User = require('./models/user');
 Building = require('./models/building');
@@ -31,38 +32,81 @@ app.get('/aptmgmt',function(request,response){
  response.send('Welcome to Apartment Management App.' +'<br>'+'To get list of APIs, use path /aptmgmt/api');
 });
 
-/*
-//get genres
-app.get('/bookstore/api/genres',function(request, response){
-	Genre.getGenres(function(err,genres){
+
+//get users
+app.get('/aptmgmt/api/users',function(request, response){
+	User.getUsers(function(err,users){
 		if(err){
-			throw err;
+			response.json(err);
+			return;
 		}
-		response.json(genres);
+		response.json(users);
 	});
 });
 
-//insert genre
-app.post('/bookstore/api/genres',function(request, response){
-	var genre = request.body;
-	Genre.addGenre(genre, function(err,genre){
+//get user by email
+app.get('/aptmgmt/api/user/:emailId',function(request, response){
+	//console.log('get user by email called for email id:'+request.params.email);
+	
+	User.getUserByEmail(request.params.emailId,'',function(err,user){
+
 		if(err){
-			throw err;
+			response.json(err);
+			return;
 		}
-		response.json(genre);
+		response.json(user);
+	});
+	
+});
+
+//insert user
+app.post('/aptmgmt/api/user',function(request, response){
+	console.log('insert user called');
+	var user = request.body;	
+	User.addUser(user, function(err,user){
+
+		if(err){			
+			//throw err;
+			if(err.code==11000){
+				response.json({status:409,message:"User is already registered"});				
+			}
+			else{
+				//response.json({status:500,message:"Internal Server Error"});
+				response.json(err);
+			}
+			return;
+		}
+		response.json({status:201, message:"User successfully registered"});
 	});
 });
+
 
 //update genre
-app.put('/bookstore/api/genres/:_id',function(request, response){
-	var genre = request.body;
-	Genre.updateGenre(request.params._id, genre, function(err,genre){
+app.put('/aptmgmt/api/user/:emailId',function(request, response){
+	var user = request.body;
+	//create a userMod so that only selective field can be updated
+	var userMod={};
+	userMod.name = user.name;
+	userMod.phone = user.phone;
+	User.updateUser(request.params.emailId, userMod, function(err){
+
 		if(err){
-			throw err;
+			response.json(err);
+			return;
 		}
-		response.json(genre);
+		
+		//returned user document from update query can not sent back in the reseponse as it has credentials field
+		User.getUserByEmail(request.params.emailId,'',function(err,user){
+				if(err){
+					response.json(err);
+					return;
+				}
+				response.json(user);
+   			});
 	});
 });
+
+/*
 
 //delete genre
 app.delete('/bookstore/api/genres/:_id',function(request, response){
