@@ -45,15 +45,17 @@ app.get('/aptmgmt/api/users',function(request, response){
 });
 
 //get user by email
-app.get('/aptmgmt/api/user/:emailId',function(request, response){
-	//console.log('get user by email called for email id:'+request.params.email);
+app.get('/aptmgmt/api/user/:_emailId',function(request, response){
+	console.log('get user by email called for email id:'+request.params._emailId);
 	
-	User.getUserByEmail(request.params.emailId,'',function(err,user){
+	User.getUserByEmail(request.params._emailId,function(err,user){
 
 		if(err){
+			console.log("app.js -getUserByEmail encountered error");
 			response.json(err);
 			return;
 		}
+		console.log("app.js -getUserByEmail db call success");
 		response.json(user);
 	});
 	
@@ -63,6 +65,8 @@ app.get('/aptmgmt/api/user/:emailId',function(request, response){
 app.post('/aptmgmt/api/user',function(request, response){
 	console.log('insert user called');
 	var user = request.body;	
+	console.log("print user objects");
+	console.log(user);
 	User.addUser(user, function(err,user){
 
 		if(err){			
@@ -81,14 +85,17 @@ app.post('/aptmgmt/api/user',function(request, response){
 });
 
 
-//update genre
-app.put('/aptmgmt/api/user/:emailId',function(request, response){
+//update user
+app.put('/aptmgmt/api/user/:_emailId',function(request, response){
 	var user = request.body;
 	//create a userMod so that only selective field can be updated
 	var userMod={};
 	userMod.name = user.name;
 	userMod.phone = user.phone;
-	User.updateUser(request.params.emailId, userMod, function(err){
+	console.log("app.js - update user request for email id:"+request.params._emailId);
+	console.log("input user :"+user.name.first);
+	console.log("to be modified segment"+userMod.name.first);
+	User.updateUser(request.params._emailId, userMod, function(err){
 
 		if(err){
 			response.json(err);
@@ -96,7 +103,7 @@ app.put('/aptmgmt/api/user/:emailId',function(request, response){
 		}
 		
 		//returned user document from update query can not sent back in the reseponse as it has credentials field
-		User.getUserByEmail(request.params.emailId,'',function(err,user){
+		User.getUserByEmail(request.params._emailId,function(err,user){
 				if(err){
 					response.json(err);
 					return;

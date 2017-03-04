@@ -45,7 +45,7 @@ var userSchema = mongoose.Schema({
 userSchema.pre('validate', function (next) {
   console.log('pre validate method----');
   if(this.hashed_pwd == 'undefined'){
-  	 next(new Error('hashed_pwd should not be empty'));
+  	// next(new Error('hashed_pwd should not be empty'));  	
     return;
   }
   next();
@@ -56,17 +56,18 @@ var User = mongoose.model('User',userSchema);
 //Get All Users - should be restricted 
 getUsers = function(callback,limit){
 	var searchOptions='';
-	var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0};
+	var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
 	User.find(searchOptions,selectionRange,callback).limit(limit);
 }
 
 
 //Get User by Email
 
-getUserByEmail = function(emailId,password,callback){
-	//console.log('user.js - get user by email -email id:'+emailId+','+'password:'+password);
+getUserByEmail = function(emailId,callback){
+	console.log('user.js - get user by email -email id:'+emailId);
 	var searchOptions = {"email":emailId};
-	var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0};
+	//var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
+	var selectionRange = {__v:0};
 	//console.log(searchOptions);
 	User.find(searchOptions, selectionRange,callback);
 }

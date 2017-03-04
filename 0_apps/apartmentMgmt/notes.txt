@@ -4,6 +4,7 @@ Database
 - 
 - db.createCollection('userdetail')
 - db.userdetail.insert( {json obj})
+- To test use command "nodemon"
 
 
 References
@@ -26,7 +27,7 @@ Sample user Json
 			"primary":"9903887868",
 			"alternate1":"8583018301",
 			"alternate2":"8585085845",
-			"alternate3":"99999999",
+			"alternate3":"99999999"
 					          
 		},
 
