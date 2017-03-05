@@ -1,35 +1,19 @@
 Database 
 ----------------------
 - use aptmgmt
-- 
-- db.createCollection('userdetail')
-- db.userdetail.insert( {json obj})
-- To test use command "nodemon"
+- db.createCollection('users')
+- db.createCollection('masterdatacategory')
+
+
+Start App
+-----------
+To test use command "nodemon"
+
+public folder
+-------------------------
+installed the following bower dependencies in public folder 
+    bower install --save bootstrap angular angular-route jquery
 
 
 References
 https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1
-
-https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1
-
-Sample user Json
-------------------
-{
-	"name": {
-      "first":"Debashis",
-      "last": "Ghosh"
-  	},
-	
-	"email":"debashisgho@gmail.com",
-
-	"phone":
-		{
-			"primary":"9903887868",
-			"alternate1":"8583018301",
-			"alternate2":"8585085845",
-			"alternate3":"99999999"
-					          
-		},
-
-	"hashed_pwd":"welcome1"	
-}

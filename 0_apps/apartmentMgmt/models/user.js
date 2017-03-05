@@ -1,4 +1,28 @@
+
+/*sample JSON
+
+{
+	"name": {
+      "first":"Debashis",
+      "last": "Ghosh"
+  	},
+	
+	"email":"debashisgho@gmail.com",
+
+	"phone":
+		{
+			"primary":"9903887868",
+			"alternate1":"8583018301",
+			"alternate2":"8585085845",
+			"alternate3":"99999999"
+					          
+		},
+
+	"hashed_pwd":"welcome1"	
+}*/
+
 var mongoose = require('mongoose');
+
 
 //user schema
 var userSchema = mongoose.Schema({
@@ -20,7 +44,7 @@ var userSchema = mongoose.Schema({
 			alternate3:{type: String, trim:true}
 		},
 
-	hashed_pwd:{type:String, required:true},
+	hashed_pwd:{type:String, required:true, default:'passw0rd'},
 
 	temp_pwd:{type: String},
 
@@ -30,7 +54,7 @@ var userSchema = mongoose.Schema({
 		type:Date, default: Date.now
 	}
 
-});
+},{collection: 'users'});
 
 /*userSchema.pre('validate', function() {
 	console.log('In pre validate check');

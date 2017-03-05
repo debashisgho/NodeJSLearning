@@ -6,11 +6,12 @@ var bodyParser = require('body-parser')
 Room = require('./models/room');
 User = require('./models/user');
 Building = require('./models/building');
+MasterData = require('./models/masterdata');
 //expressApp points to function createApplication
 var app = expressApp();
 
 //folder which will serve public files
-//app.use(expressApp.static(__dirname+'/public'));
+app.use(expressApp.static(__dirname+'/public'));
 
 //use the bodyParser middleware to put the requested application/json in the body
 app.use(bodyParser.json());
@@ -30,6 +31,17 @@ app.get('/',function(request,response){
 });
 app.get('/aptmgmt',function(request,response){	
  response.send('Welcome to Apartment Management App.' +'<br>'+'To get list of APIs, use path /aptmgmt/api');
+});
+
+//get masterdata categories
+app.get('/aptmgmt/api/masterdata/categories',function(request, response){
+	MasterData.getCategories(function(err,categories){
+		if(err){
+			response.json(err);
+			return;
+		}
+		response.json(categories);
+	});
 });
 
 
