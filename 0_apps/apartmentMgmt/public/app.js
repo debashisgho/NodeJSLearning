@@ -11,10 +11,16 @@ myApp.config(function($routeProvider,$locationProvider){
 		templateUrl: '/views/masterdata.html'
 	})
 
+	.when('/masterdata/user', {
+		controller:'MasterDataController',
+		templateUrl: '/views/user.html'
+	})
+
 	.when('/earning', {
 		controller:'EarningController',
 		templateUrl: '/views/earning.html'
 	})
+
 	
 	$locationProvider.html5Mode(true);
 
