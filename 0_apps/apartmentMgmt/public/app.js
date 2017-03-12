@@ -2,7 +2,7 @@ var myApp = angular.module('myApp',['ngRoute']);
 
 myApp.config(function($routeProvider,$locationProvider){
 	$routeProvider
-	.when('/', {
+	.when('/aptmgmt', {
 		controller:'HomeController',
 		templateUrl: '/views/home.html'
 	})
