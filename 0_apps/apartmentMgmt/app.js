@@ -1,7 +1,7 @@
 var expressApp = require('express'); 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+//var cookieParser = require('cookie-parser');
 
 
 //expressApp points to function createApplication

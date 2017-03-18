@@ -6,11 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },  
+  
   "dependencies":{
     "express":"*",
     "body-parser":"*",
-    "mongoose":"*"
+    "mongoose":"*",
+    "bcryptjs": "*",
+    "client-sessions": "*",
+    "csurf": "*"
   },
+
   "keywords": [
     "apartment management"
   ],
