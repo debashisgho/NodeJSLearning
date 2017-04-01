@@ -1,7 +1,6 @@
 var expressApp = require('express'); 
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-//var cookieParser = require('cookie-parser');
 
 
 //expressApp points to function createApplication
@@ -11,7 +10,8 @@ var app = expressApp();
 app.use(expressApp.static(__dirname+'/public'));
 
 //connect to Database
-mongoose.connect('mongodb://localhost:27017/aptmgmt');
+var configDB = require('./config/db.js');
+mongoose.connect(configDB.url);
 var db = mongoose.connection;
 
 //set up the middleware 

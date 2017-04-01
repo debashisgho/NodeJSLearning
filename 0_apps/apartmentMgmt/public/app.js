@@ -6,6 +6,14 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'HomeController',
 		templateUrl: '/views/home.html'
 	})
+	.when('/aptmgmt/login', {
+		controller:'LoginController',
+		templateUrl: '/views/login.html'
+	})
+	.when('/aptmgmt/register', {
+		controller:'RegisterController',
+		templateUrl: '/views/register.html'
+	})
 	.when('/masterData', {
 		controller:'MasterDataController',
 		templateUrl: '/views/masterdata.html'

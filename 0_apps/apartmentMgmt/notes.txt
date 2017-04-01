@@ -1,3 +1,11 @@
+Sample
+-------
+Auth with passport
+https://scotch.io/tutorials/easy-node-authentication-setup-and-local
+Auth with connect/mozilla plug in
+https://www.youtube.com/watch?v=yvviEA1pOXw
+
+
 Database 
 ----------------------
 - use aptmgmt

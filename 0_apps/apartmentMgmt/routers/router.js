@@ -12,10 +12,7 @@ router.get('/',function(request,response){
 router.get('/aptmgmt',function(request,response){	
  response.redirect(__dirname+'/public/views/home.html');
 });
-
-router.get('/aptmgmt/login',function(request,response){	
- response.redirect(__dirname+'/public/views/login.html');
-});*/
+*/
 
 router.get('/aptmgmt',function(request,response){	
 
@@ -24,7 +21,14 @@ response.sendFile(path.resolve(__dirname + '/../public/'+'index.html'));
 
 });
 
-
+router.get('/aptmgmt/login',function(request,response){	
+ var path = require('path');
+ response.sendFile(path.resolve(__dirname + '/../public/views/'+'login.html'));
+});
+router.get('/aptmgmt/register',function(request,response){	
+ var path = require('path');
+ response.sendFile(path.resolve(__dirname + '/../public/views/'+'register.html'));
+});
 
 router.use(require('../api/user.js'));
 router.use(require('../api/building.js'));
