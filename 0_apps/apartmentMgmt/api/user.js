@@ -83,4 +83,40 @@ router.put('/aptmgmt/api/user/:_emailId',function(request, response){
 	});
 });
 
+//Register User
+
+router.post('/aptmgmt/api/user/register',function(request, response){
+	console.log('register user called');
+	var user = request.body;	
+	console.log("print user objects");
+	console.log(user);
+	//response.json(user);
+
+	User.addUser(user, function(err,user){
+
+		if(err){			
+			//throw err;
+			if(err.code==11000){
+				console.log("user already registered");
+				response.json({status:409,message:"User is already registered"});	
+				//console.log(response);			
+			}
+			else{
+				//response.json({status:500,message:"Internal Server Error"});
+				console.log("ran into error");
+				response.json({status:500,message:err});
+				//console.log(response);
+			}
+			return;
+		}
+		console.log("user successfully registered");
+		response.json({status:201, message:"User successfully registered"});
+		//response.status=201;
+		//response.message="User successfully registered";
+		//console.log(response);
+	});
+	
+	
+});
+
 module.exports = router;

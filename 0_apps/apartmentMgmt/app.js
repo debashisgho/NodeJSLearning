@@ -6,6 +6,9 @@ var bodyParser = require('body-parser');
 //expressApp points to function createApplication
 var app = expressApp();
 
+//use the bodyParser middleware to put the requested application/json in the body
+app.use(bodyParser.json());
+
 //folder which will serve public files
 app.use(expressApp.static(__dirname+'/public'));
 
@@ -13,13 +16,6 @@ app.use(expressApp.static(__dirname+'/public'));
 var configDB = require('./config/db.js');
 mongoose.connect(configDB.url);
 var db = mongoose.connection;
-
-//set up the middleware 
-
-
-//use the bodyParser middleware to put the requested application/json in the body
-app.use(bodyParser.json());
-
 
 //load the routes
 app.use(require('./routers/router'));

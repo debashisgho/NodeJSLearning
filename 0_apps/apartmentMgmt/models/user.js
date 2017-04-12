@@ -96,6 +96,9 @@ getUserByEmail = function(emailId,callback){
 	User.find(searchOptions, selectionRange,callback);
 }
 
+
+
+
 //Add User
 addUser = function(user, callback){
 	User.create(user, callback);
