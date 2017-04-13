@@ -129,7 +129,7 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 	//response.json(user);
 
 	User.getUserByEmail(inUser.email,function(err,user){
-		console.log(user.length);
+		console.log(user);
 
 		if(user.length == 0){
 			console.log("email or password is wrong");
@@ -142,7 +142,13 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 
 		if(user.length ==1){
 			console.log("User found with email");
-			response.json({status:201,message:"Login Success"});
+			if(inUser.password == user[0].hashed_pwd){
+				response.json({status:201,message:"Login Success"});
+			}
+			else{
+			console.log("email or password is wrong");
+			response.json({status:400,message:"Login failed - email or password is wrong"});
+			}
 		}
 	});
 
