@@ -87,18 +87,18 @@ router.put('/aptmgmt/api/user/:_emailId',function(request, response){
 
 router.post('/aptmgmt/api/user/register',function(request, response){
 	console.log('register user called');
-	var user = request.body;	
+	var inUser = request.body;	
 	console.log("print user objects");
-	console.log(user);
+	console.log(inUser);
 	//response.json(user);
 
-	User.addUser(user, function(err,user){
+	User.addUser(inUser, function(err,user){
 
 		if(err){			
 			//throw err;
 			if(err.code==11000){
 				console.log("user already registered");
-				response.json({status:409,message:"User is already registered"});	
+				response.json({status:409,message:"User already exists"});	
 				//console.log(response);			
 			}
 			else{
@@ -117,6 +117,35 @@ router.post('/aptmgmt/api/user/register',function(request, response){
 	});
 	
 	
+});
+
+//login method User
+
+router.post('/aptmgmt/api/user/login',function(request, response){
+	console.log('login user called');
+	var inUser = request.body;	
+	console.log("print user objects");
+	console.log(inUser);
+	//response.json(user);
+
+	User.getUserByEmail(inUser.email,function(err,user){
+		console.log(user.length);
+
+		if(user.length == 0){
+			console.log("email or password is wrong");
+			response.json({status:400,message:"Login failed - email or password is wrong"});	
+		}
+		if(user.length >1){
+			console.log("Multiple users found with same email");
+			response.json({status:401,message:"Login failed - Multiple users found with same email id - Please contact Site administrator"});
+		}
+
+		if(user.length ==1){
+			console.log("User found with email");
+			response.json({status:201,message:"Login Success"});
+		}
+	});
+
 });
 
 module.exports = router;

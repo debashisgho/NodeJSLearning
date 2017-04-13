@@ -7,7 +7,9 @@ myApp.controller('MasterDataController', ['$scope', '$http', '$location', '$rout
 $scope.getMasterDataCategories = function(){
 		$http.get('/aptmgmt/api/masterdata/categories').then(function(response){
 			$scope.masterdataL = response.data;			
+			console.log('got response');
 		});
+
 	}
 	
 

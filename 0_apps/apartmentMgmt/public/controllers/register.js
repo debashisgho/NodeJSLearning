@@ -20,8 +20,7 @@ myApp.controller('RegisterController', ['$scope', '$http', '$location', '$routeP
 				"status":statusCode,
 				"message":response.data.message
 			};
-			console.log("back into controller");
-			console.log("response is :"+ $scope.response.status+ ":"+$scope.response.message);
+			
 		});
 	}
 

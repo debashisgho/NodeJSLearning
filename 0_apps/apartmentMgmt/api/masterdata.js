@@ -10,7 +10,7 @@ router.get('/aptmgmt/api/masterdata/categories',function(request, response){
 		if(err){
 			response.json(err);
 			return;
-		}
+		}		
 		response.json(categories);
 	});
 });

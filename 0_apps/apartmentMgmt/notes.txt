@@ -22,6 +22,9 @@ public folder
 installed the following bower dependencies in public folder 
     bower install --save bootstrap angular angular-route jquery
 
+Sample bootstrap themes
+------------------------
+https://bootswatch.com
 
 References
 https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design-part-1

@@ -14,17 +14,17 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'RegisterController',
 		templateUrl: '/views/register.html'
 	})
-	.when('/masterData', {
+	.when('/aptmgmt/masterdata', {
 		controller:'MasterDataController',
 		templateUrl: '/views/masterdata.html'
 	})
 
-	.when('/masterdata/user', {
+	.when('/aptmgmt/masterdata/user', {
 		controller:'MasterDataController',
 		templateUrl: '/views/user.html'
 	})
 
-	.when('/earning', {
+	.when('/aptmgmt/earning', {
 		controller:'EarningController',
 		templateUrl: '/views/earning.html'
 	})
