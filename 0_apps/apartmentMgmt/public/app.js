@@ -4,7 +4,11 @@ myApp.config(function($routeProvider,$locationProvider){
 	$routeProvider
 	.when('/aptmgmt', {
 		controller:'HomeController',
-		templateUrl: '/views/home.html'
+		templateUrl: '/views/home_NoLogIn.html'
+	})
+	.when('/aptmgmt/home', { //this route is used by logged in user. it is automatically redicted after log in
+		controller:'HomeController',
+		templateUrl: '/views/home_LoggedIn.html'
 	})
 	.when('/aptmgmt/login', {
 		controller:'LoginController',

@@ -1,3 +1,10 @@
+package.json
+----------------
+mention dependencies in package.json
+run below command to install the defined node modules
+"npm install" 
+
+
 Sample
 -------
 Auth with passport

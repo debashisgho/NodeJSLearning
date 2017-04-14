@@ -20,7 +20,8 @@ response.sendFile(path.resolve(__dirname + '/../public/'+'index.html'));
 });
 
 
-//keep the below portion to handle pattern in the URL to redirect to index.html /once angular gets loaded it knows how to redirect it to correct URL
+//keep the below portion to handle pattern in the URL to redirect to index.html 
+//once angular gets loaded it knows how to redirect it to correct URL
 router.get('/aptmgmt/*',function(request,response){	
 
 var path = require('path');
