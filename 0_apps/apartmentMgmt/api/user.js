@@ -119,13 +119,15 @@ router.post('/aptmgmt/api/user/register',function(request, response){
 	
 });
 
+
+
 //login method User
 
 router.post('/aptmgmt/api/user/login',function(request, response){
 	console.log('login user called');
 	//console.log(request);
 	var inUser = request.body;	
-	console.log(inUser);
+	//console.log(inUser);
 	//console.log("print user objects");
 	//console.log(inUser);
 	//response.json(user);
@@ -144,20 +146,22 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 
 		if(user.length ==1){
 			console.log("User found with email");
-			console.log(user);
+		//	console.log(user);
 			if(inUser.password == user[0].hashed_pwd){
 				
 				//store required data in session cookie
 				var sessionUser={};
 				sessionUser.name = user[0].name;
 				sessionUser.email = user[0].email;
-				console.log(sessionUser);
-				console.log(request.session);
+				//console.log(sessionUser);
+				//console.log(request.session);
 				request.session.user = sessionUser;
-				console.log(request.session);
+				//console.log(request.session);
 
 				var path = require('path');
 				//response.sendFile(path.resolve(__dirname + '/../public/views/'+'home_NoLogIn.html'));
+				response.locals.user = sessionUser;
+				//response.render('/aptmgmt/public/views/home_LoggedIn.html');
 				response.redirect('/aptmgmt/home');
 				//response.json({status:201,message:"Login Success"});
 			}
@@ -168,6 +172,16 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 		}
 	});
 
+});
+
+//get authenticated user
+
+router.get('/aptmgmt/api/user/session/isLoggedIn',function(request, response){
+	console.log('-----------get session called-------------');
+	var userInfo ={};
+	userInfo.user = request.session.user;
+	response.json(userInfo);
+	
 });
 
 module.exports = router;
