@@ -174,6 +174,16 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 
 });
 
+
+//logout method User
+
+router.get('/aptmgmt/api/user/session/logout',function(request, response){
+	console.log('logout user called');
+	request.session.reset();
+	response.redirect('/aptmgmt');
+
+});
+
 //get authenticated user
 
 router.get('/aptmgmt/api/user/session/isLoggedIn',function(request, response){

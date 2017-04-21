@@ -6,11 +6,3 @@
 	text-transform: capitalize;
 }
 
-/*.navbar-nav > li:last-child
-{
-    float:right;
-}*/
-
-.userInfoInNavbar{
-	float:right;
-}

@@ -14,6 +14,9 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'LoginController',
 		templateUrl: '/views/login.html'
 	})
+	.when('/aptmgmt/logout', {
+		controller:'LogoutController'
+	})
 	.when('/aptmgmt/register', {
 		controller:'RegisterController',
 		templateUrl: '/views/register.html'
