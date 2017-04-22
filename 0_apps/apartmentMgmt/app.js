@@ -10,7 +10,6 @@ var app = expressApp();
 
 //middleware
 
-//app.set('view engine', 'html');
 //use the bodyParser middleware to put the requested application/json in the body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

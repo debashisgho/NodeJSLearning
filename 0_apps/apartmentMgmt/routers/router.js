@@ -2,8 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 
-
-
 //load the API routes
 
 router.use(require('../api/user.js'));
