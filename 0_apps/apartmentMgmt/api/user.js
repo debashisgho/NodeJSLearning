@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var bcrypt = require('bcryptjs');
 
 User = require('../models/user');
 
@@ -36,9 +37,15 @@ router.post('/aptmgmt/api/user',function(request, response){
 	console.log('insert user called');
 	var user = request.body;	
 	console.log("print user objects");
+	var salt = bcrypt.genSaltSync(10);
+	var hashed_pwd= bcrypt.hashSync(user.password, salt);
+	user.hashed_pwd = hashed_pwd;
+	delete user.password;
+	delete user.passwordConfirm;
+
 	console.log(user);
 	User.addUser(user, function(err,user){
-
+		delete user.hashed_pwd;
 		if(err){			
 			//throw err;
 			if(err.code==11000){
@@ -85,7 +92,7 @@ router.put('/aptmgmt/api/user/:_emailId',function(request, response){
 
 //Register User
 
-router.post('/aptmgmt/api/user/register',function(request, response){
+/*router.post('/aptmgmt/api/user/register',function(request, response){
 	console.log('register user called');
 	var inUser = request.body;	
 	console.log("print user objects");
@@ -119,7 +126,7 @@ router.post('/aptmgmt/api/user/register',function(request, response){
 	
 });
 
-
+*/
 
 //login method User
 
@@ -147,7 +154,8 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 		if(user.length ==1){
 			console.log("User found with email");
 		//	console.log(user);
-			if(inUser.password == user[0].hashed_pwd){
+			//if(inUser.password == user[0].hashed_pwd){
+			if(bcrypt.compareSync(inUser.password, user[0].hashed_pwd)){
 				
 				//store required data in session cookie
 				var sessionUser={};

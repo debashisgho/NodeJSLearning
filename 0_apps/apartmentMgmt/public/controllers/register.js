@@ -5,7 +5,7 @@ myApp.controller('RegisterController', ['$scope', '$http', '$location', '$routeP
 
 	$scope.registerUser = function(){
 		console.log("starting controller method -going to call post method");
-		$http.post('/aptmgmt/api/user/register/', $scope.user).then(function(response){
+		$http.post('/aptmgmt/api/user/', $scope.user).then(function(response){
 			//window.location.href='/aptmgmt/login';
 			console.log("finished http call");
 			console.log(response.data.status+" : "+response.data.message);

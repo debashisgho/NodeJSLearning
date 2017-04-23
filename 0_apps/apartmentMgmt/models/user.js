@@ -101,6 +101,7 @@ getUserByEmail = function(emailId,callback){
 
 //Add User
 addUser = function(user, callback){
+	console.log(user);
 	User.create(user, callback);
 }
 

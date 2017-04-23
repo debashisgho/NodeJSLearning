@@ -3,11 +3,11 @@ var myApp = angular.module('myApp',['ngRoute']);
 myApp.config(function($routeProvider,$locationProvider){
 	$routeProvider
 	.when('/aptmgmt', {
-		controller:'HomeController',
+		controller:'Home_NoLogInController',
 		templateUrl: '/views/home_NoLogIn.html'
 	})
 	.when('/aptmgmt/home', { //this route is used by logged in user. it is automatically redicted after log in
-		controller:'HomeController',
+		controller:'Home_LoggedInController',
 		templateUrl: '/views/home_LoggedIn.html'
 	})
 	.when('/aptmgmt/login', {
