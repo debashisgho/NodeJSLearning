@@ -1,21 +1,18 @@
+
 <a href="/aptmgmt/login">Login</a>
 
-   
-  <div
-       ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
-        {{response.status}} {{response.message}}
-  </div>
+  
 
 <br>
-<div class="panel panel-default" ng-show="response.status!='S'">
+<div class="panel panel-default" ng-init="viewProfile()">
   <div class="panel-heading">
-    <h3 class="panel-title">Register</h3>
+    <h3 class="panel-title">Profile</h3>
   </div>
   <div class="panel-body">
     <div class="row">
       <div class="col-md-12">     
        
-  <form ng-submit="registerUser()">
+  <form ng-submit="updateProfile()">
 
   <input type="hidden" name="_csrf"/>
       <div class="form-group">

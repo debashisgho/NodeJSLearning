@@ -18,6 +18,13 @@ router.get('/aptmgmt/api/users',function(request, response){
 //get user by email
 router.get('/aptmgmt/api/user/:_emailId',function(request, response){
 	console.log('get user by email called for email id:'+request.params._emailId);
+
+	if(request.params._emailId =='currentUser'){
+		console.log('get profile for current User');
+		request.params._emailId = request.session.user.email;
+	}
+
+	console.log(request.params._emailId);
 	
 	User.getUserByEmail(request.params._emailId,function(err,user){
 
@@ -27,6 +34,7 @@ router.get('/aptmgmt/api/user/:_emailId',function(request, response){
 			return;
 		}
 		console.log("app.js -getUserByEmail db call success");
+		console.log(user);
 		response.json(user);
 	});
 	

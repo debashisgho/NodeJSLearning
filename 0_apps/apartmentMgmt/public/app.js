@@ -21,6 +21,10 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'RegisterController',
 		templateUrl: '/views/register.html'
 	})
+	.when('/aptmgmt/myProfile', {
+		controller:'MyProfileController',
+		templateUrl: '/views/profile.html'
+	})
 	.when('/aptmgmt/masterdata', {
 		controller:'MasterDataController',
 		templateUrl: '/views/masterdata.html'
