@@ -1,9 +1,11 @@
+ <div
+       ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
+        {{response.status}} {{response.message}}
+</div>
 
-<a href="/aptmgmt/login">Login</a>
+<br><br>
 
-  
 
-<br>
 <div class="panel panel-default" ng-init="viewProfile()">
   <div class="panel-heading">
     <h3 class="panel-title">Profile</h3>
@@ -25,7 +27,7 @@
       </div>   
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" placeholder="Email" ng-model="user.email">
+        <input type="text" class="form-control" id="email" placeholder="Email" ng-model="user.email" readonly>
       </div>   
       <div class="form-group">
         <label for="firstName">Phone</label>

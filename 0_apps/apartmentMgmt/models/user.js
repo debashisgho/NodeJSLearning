@@ -90,8 +90,8 @@ getUsers = function(callback,limit){
 getUserByEmail = function(emailId,callback){
 	console.log('user.js - get user by email -email id:'+emailId);
 	var searchOptions = {"email":emailId};
-	var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
-	//var selectionRange = {__v:0};
+	//var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
+	var selectionRange = {__v:0};
 	//console.log(searchOptions);
 	User.find(searchOptions, selectionRange,callback);
 }
@@ -123,11 +123,12 @@ deleteBook = function(id, callback){
 */
 
 
+
+
+
 User.getUsers = getUsers;
 User.getUserByEmail = getUserByEmail;
 User.addUser = addUser;
 User.updateUser = updateUser;
-/*
-Book.deleteBook = deleteBook;
-*/
+
 module.exports = User ;

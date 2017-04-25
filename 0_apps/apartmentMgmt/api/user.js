@@ -4,6 +4,17 @@ var bcrypt = require('bcryptjs');
 
 User = require('../models/user');
 
+
+function removeSensitiveData(user){
+	var userJSObj = user[0].toObject();
+	delete userJSObj.hashed_pwd;
+	delete userJSObj.temp_pwd;
+	delete userJSObj.temp_pwd_time;
+	var userJSObjArr =[{}];
+	userJSObjArr[0]=userJSObj;
+	return userJSObjArr;
+}
+
 //get users
 router.get('/aptmgmt/api/users',function(request, response){
 	User.getUsers(function(err,users){
@@ -34,8 +45,8 @@ router.get('/aptmgmt/api/user/:_emailId',function(request, response){
 			return;
 		}
 		console.log("app.js -getUserByEmail db call success");
-		console.log(user);
-		response.json(user);
+		
+		response.json(removeSensitiveData(user));
 	});
 	
 });
@@ -73,13 +84,24 @@ router.post('/aptmgmt/api/user',function(request, response){
 //update user
 router.put('/aptmgmt/api/user/:_emailId',function(request, response){
 	var user = request.body;
+
+
+	if(request.params._emailId =='currentUser'){
+		console.log('update profile for current User');
+		request.params._emailId = request.session.user.email;
+	}
 	//create a userMod so that only selective field can be updated
 	var userMod={};
 	userMod.name = user.name;
 	userMod.phone = user.phone;
+	if(user.password){
+		var salt = bcrypt.genSaltSync(10);
+		var hashed_pwd= bcrypt.hashSync(user.password, salt);
+		userMod.hashed_pwd = hashed_pwd;
+	}
+
 	console.log("app.js - update user request for email id:"+request.params._emailId);
-	console.log("input user :"+user.name.first);
-	console.log("to be modified segment"+userMod.name.first);
+	
 	User.updateUser(request.params._emailId, userMod, function(err){
 
 		if(err){
@@ -88,53 +110,19 @@ router.put('/aptmgmt/api/user/:_emailId',function(request, response){
 		}
 		
 		//returned user document from update query can not sent back in the reseponse as it has credentials field
-		User.getUserByEmail(request.params._emailId,function(err,user){
+		/*User.getUserByEmail(request.params._emailId,function(err,user){
 				if(err){
 					response.json(err);
 					return;
 				}
 				response.json(user);
-   			});
+   			});*/
+
+   		response.json({status:202, message:"User successfully updated"});
 	});
 });
 
-//Register User
 
-/*router.post('/aptmgmt/api/user/register',function(request, response){
-	console.log('register user called');
-	var inUser = request.body;	
-	console.log("print user objects");
-	console.log(inUser);
-	//response.json(user);
-
-	User.addUser(inUser, function(err,user){
-
-		if(err){			
-			//throw err;
-			if(err.code==11000){
-				console.log("user already registered");
-				response.json({status:409,message:"User already exists"});	
-				//console.log(response);			
-			}
-			else{
-				//response.json({status:500,message:"Internal Server Error"});
-				console.log("ran into error");
-				response.json({status:500,message:err});
-				//console.log(response);
-			}
-			return;
-		}
-		console.log("user successfully registered");
-		response.json({status:201, message:"User successfully registered"});
-		//response.status=201;
-		//response.message="User successfully registered";
-		//console.log(response);
-	});
-	
-	
-});
-
-*/
 
 //login method User
 
@@ -148,7 +136,7 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 	//response.json(user);
 
 	User.getUserByEmail(inUser.email,function(err,user){
-		//console.log(user);
+		console.log(user);
 
 		if(user.length == 0){
 			console.log("email or password is wrong");
@@ -161,25 +149,20 @@ router.post('/aptmgmt/api/user/login',function(request, response){
 
 		if(user.length ==1){
 			console.log("User found with email");
-		//	console.log(user);
-			//if(inUser.password == user[0].hashed_pwd){
+		
 			if(bcrypt.compareSync(inUser.password, user[0].hashed_pwd)){
 				
 				//store required data in session cookie
 				var sessionUser={};
 				sessionUser.name = user[0].name;
 				sessionUser.email = user[0].email;
-				//console.log(sessionUser);
-				//console.log(request.session);
+				
 				request.session.user = sessionUser;
 				//console.log(request.session);
 
 				var path = require('path');
-				//response.sendFile(path.resolve(__dirname + '/../public/views/'+'home_NoLogIn.html'));
-				response.locals.user = sessionUser;
-				//response.render('/aptmgmt/public/views/home_LoggedIn.html');
-				response.redirect('/aptmgmt/home');
-				//response.json({status:201,message:"Login Success"});
+			
+				response.redirect('/aptmgmt/home');		
 			}
 			else{
 			console.log("email or password is wrong");
