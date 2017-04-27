@@ -1,4 +1,4 @@
- <div
+<div ng-show="!myProfile.$dirty"
        ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
         {{response.status}} {{response.message}}
 </div>
@@ -14,7 +14,7 @@
     <div class="row">
       <div class="col-md-12">     
        
-  <form ng-submit="updateProfile()">
+  <form ng-submit="updateProfile()" name="myProfile">
 
   <input type="hidden" name="_csrf"/>
       <div class="form-group">

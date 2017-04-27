@@ -21,6 +21,8 @@ myApp.controller('MyProfileController', ['$scope','$rootScope', '$http', '$locat
 	};
 
 	$scope.updateProfile = function(){
+		
+		$scope.myProfile.$setPristine();//the form is submitted, so reset to pristine
 		console.log("controller updateProfile started");
 		console.log($scope.user);
 		$http.put('/aptmgmt/api/user/currentUser', $scope.user).then(function(response){
