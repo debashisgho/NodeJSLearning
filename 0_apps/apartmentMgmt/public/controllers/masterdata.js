@@ -3,7 +3,7 @@ var myApp = angular.module('myApp');
 myApp.controller('MasterDataController', ['$scope', '$http', '$location', '$routeParams','SessionService', function($scope, $http, $location, $routeParams,SessionService){
 	console.log('MasterDataController loaded...');
 
-	SessionService.redirectIfNotLoggedIn();
+SessionService.runInitialSetUp();
 
 
 $scope.getMasterDataCategories = function(){

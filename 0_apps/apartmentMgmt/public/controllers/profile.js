@@ -3,14 +3,8 @@ var myApp = angular.module('myApp');
 myApp.controller('MyProfileController', ['$scope','$rootScope', '$http', '$location', '$routeParams','SessionService', function($scope, $rootScope, $http, $location, $routeParams,SessionService){
 	console.log('MyProfileController loaded...');
 
-	SessionService.redirectIfNotLoggedIn();
-	var responsePromise = SessionService.getLogInDetails();
-
-	responsePromise
-	.then(function(data){		
-		$scope.user= data;
-		$rootScope.user = data;
-	});
+	SessionService.runInitialSetUp();
+	
 
 	$scope.viewProfile = function(){
 		console.log('view profile called');
