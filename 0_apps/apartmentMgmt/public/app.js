@@ -25,14 +25,20 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'MyProfileController',
 		templateUrl: '/views/profile.html'
 	})
-	.when('/aptmgmt/masterdata', {
-		controller:'MasterDataController',
-		templateUrl: '/views/masterdata.html'
+
+	.when('/aptmgmt/masterdata/building', {
+		controller:'buildingDataController',
+		templateUrl: '/views/masterdata/building/building.html'
 	})
 
 	.when('/aptmgmt/masterdata/user', {
 		controller:'MasterDataController',
-		templateUrl: '/views/user.html'
+		templateUrl: '/views/user/user.html'
+	})
+
+	.when('/aptmgmt/masterdata', {
+		controller:'MasterDataController',
+		templateUrl: '/views/masterdata/masterdata.html'
 	})
 
 	.when('/aptmgmt/earning', {

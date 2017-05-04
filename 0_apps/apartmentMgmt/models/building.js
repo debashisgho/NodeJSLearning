@@ -1,3 +1,59 @@
+
+/*sample JSON
+
+{
+
+	name:"Rittika Apartment",
+  	contact:
+  		{
+  			email:"rittikaApt@gmail.com",
+  			phone:"91-9903887868"
+  		},
+
+	details:{
+		type:"Stand-Alone",
+		towers:[{
+			name:"tower-A",
+			floors:[{
+				num:"5"
+			}]
+		}]
+	},	
+		
+	address:
+		{
+			address1:"Sourav Ganguly Avenue",
+			address2:"Bablatala",
+			address3:"Kalipark",
+			pin:"700136",
+			postOffice:"R-Gopalpur",
+			city_vill:"Kolkata",
+			district:"South 24 pgs",
+			state:"West Bengal",
+			country:"India",
+			landmark:"near 217-B Bus Stand"
+		},	
+
+	associatedEmails:[
+			debashisgho@gmail.com, pallabi_1988@gmail.com
+		],
+	committeeMembers:[
+		{
+			designation:"member",
+			user_id:"58fced9a66928924e8db4501"
+		},
+		{
+			designation:"member",
+			user_id:""58fed3da01183c1b38063d0b",
+		}
+	]
+
+
+
+}*/
+
+
+
 var mongoose = require('mongoose');
 
 //user schema
@@ -8,7 +64,7 @@ var buildingSchema = mongoose.Schema({
 
   	contact:
   		{
-  			email:[{type:String, trim:true}],
+  			email:[{type:String, required:true, trim:true}],
   			phone:[{type:String, trim:true}]
   		},
 
@@ -19,7 +75,7 @@ var buildingSchema = mongoose.Schema({
 			floors:[{
 				num:{type:String,required:true},
 				rooms:[{
-					type : mongoose.Schema.Types.ObjectId, ref: 'Room',required:true
+					type : mongoose.Schema.Types.ObjectId, ref: 'Room'
 				}]
 			}]
 		}]
@@ -36,13 +92,15 @@ var buildingSchema = mongoose.Schema({
 			district:{type:String, trim:true},
 			state:{type:String, required:true, trim:true},
 			country:{type:String, required:true,trim:true},
-			landmark:{type:String, trim:true},
+			landmark:{type:String, trim:true}
 		},	
 
-	associatedEmails:[{type:String,required:true,trim:true}],
+	associatedEmails:[
+		{type:String,required:true,trim:true}
+	],
 	committeeMembers:[{
 			designation:{type:String, required:true,trim:true},
-			user_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
+			user_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
 	}],
 
 
