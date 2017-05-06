@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var sessionMiddleware = require('../middleware/session.js');
+var authMiddleware = require('../middleware/authChecker.js');
 
 MasterData = require('../models/masterdata');
 
@@ -17,7 +17,7 @@ MasterData = require('../models/masterdata');
 }*/
 
 //get masterdata categories
-router.get('/aptmgmt/api/masterdata/categories', sessionMiddleware.redirectIfNotLoggedIn, function(request, response){
+router.get('/aptmgmt/api/masterdata/categories', authMiddleware.checkAuth, function(request, response){
 	MasterData.getCategories(function(err,categories){
 		if(err){
 			response.json(err);

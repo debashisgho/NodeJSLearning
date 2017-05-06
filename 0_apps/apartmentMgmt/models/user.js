@@ -56,16 +56,6 @@ var userSchema = mongoose.Schema({
 
 },{collection: 'users'});
 
-/*userSchema.pre('validate', function() {
-	console.log('In pre validate check');
-  if(this.hashed_pwd == 'undefined') {
-    next(new Error('hashed_pwd should not be empty'));
-    return;
-  }
-
-  next();
-});*/
-
 userSchema.pre('validate', function (next) {
   console.log('pre validate method----');
   if(this.hashed_pwd == 'undefined'){

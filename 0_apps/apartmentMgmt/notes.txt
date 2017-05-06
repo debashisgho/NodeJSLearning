@@ -41,3 +41,13 @@ Special handling
 - used $rootScope in index.html and home.js to get user.name variable in navbar
 - used ng-cloak directive in index.html before user.name variable to stop displaying angular expression for a second during page load.
 - use ng-click to simulate click in index.html for log out action
+
+
+http response
+-----------------
+status - 201 - to indicate successful operation
+status - 409 - to indicate data issue in the input (like user is already registered)
+status - 400 - failed operation (like login failure)
+status - 402 - data issue in the backend (multiple user found with same email id)
+status - 401 - unauthorized
+
