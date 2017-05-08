@@ -1,6 +1,6 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-init="getBuildings()">
   <div class="panel-heading">
-    <h3 class="panel-title">Master Data > Building</h3>
+    <h3 class="panel-title">Master Data > Buildings</h3>
   </div>
   <div class="panel-body">
 
@@ -16,24 +16,12 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Rittika Apartment</td>
-          <td>Stand Alone</td>
-          <td>700136</td>
-          <td>rittikaApt@gmail.com</td>
-        </tr>
-        <tr>
-           <td>Rittika Apartment</td>
-          <td>Stand Alone</td>
-          <td>700136</td>
-          <td>rittikaApt@gmail.com</td>
-        </tr>
-        <tr>
-           <td>Rittika Apartment</td>
-          <td>Stand Alone</td>
-          <td>700136</td>
-          <td>rittikaApt@gmail.com</td>
-        </tr>
+        <tr ng-repeat="building in buildings">
+          <td><a href="/aptmgmt/masterdata/building/{{building._id}}">{{building.name}}</a></td>
+          <td>{{building.details.type}}</td>
+          <td>{{building.address.pin}}</td>
+          <td>{{building.contact.email}}</td>
+
       </tbody>
     </table>
   </div>

@@ -26,6 +26,11 @@ myApp.config(function($routeProvider,$locationProvider){
 		templateUrl: '/views/profile.html'
 	})
 
+	.when('/aptmgmt/masterdata/building/:id', {
+		controller:'buildingDataController',
+		templateUrl: '/views/masterdata/building/buildingUpdate.html'
+	})
+
 	.when('/aptmgmt/masterdata/building', {
 		controller:'buildingDataController',
 		templateUrl: '/views/masterdata/building/building.html'

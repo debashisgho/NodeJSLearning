@@ -7,7 +7,7 @@
   	"contact":
   		{
   			"email":"rittikaApt@gmail.com",
-  			"phone":"91-9903887868"
+  			"phone":["91-9903887868","91-8585085845","91-8583070701"]
   		},
 
 	"details":{
@@ -63,7 +63,7 @@ var buildingSchema = mongoose.Schema({
 
   	contact:
   		{
-  			email:[{type:String, required:true, unique: true,trim:true}],
+  			email:{type:String, required:true, unique: true,trim:true},
   			phone:[{type:String, trim:true}]
   		},
 
@@ -116,6 +116,16 @@ getBuildings = function(callback,limit){
 	Building.find(searchOptions,selectionRange,callback).limit(limit);
 }
 
+//Get User by Email
+
+getBuildingById = function(_id,callback){
+	console.log('/moddels/building.js - get building by id -:'+_id);
+	var searchOptions = {"_id":_id};
+	//var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
+	var selectionRange = {__v:0};
+	//console.log(searchOptions);
+	Building.find(searchOptions, selectionRange,callback);
+}
 
 //Add Building
 addBuilding = function(building, callback){
@@ -123,7 +133,18 @@ addBuilding = function(building, callback){
 	Building.create(building, callback);
 }
 
+//Update Building
+
+updateBuilding = function(emailId, building,callback){
+	var searchOptions = {"contact.email":emailId};
+	console.log("/model/building.js- update called for email id"+emailId)
+	Building.findOneAndUpdate(searchOptions, building, callback);
+}
+
+
 
 Building.getBuildings = getBuildings;
+Building.getBuildingById = getBuildingById;
 Building.addBuilding = addBuilding;
+Building.updateBuilding = updateBuilding;
 module.exports = Building ;

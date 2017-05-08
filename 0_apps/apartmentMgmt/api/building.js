@@ -40,4 +40,40 @@ router.get('/aptmgmt/api/buildings',function(request, response){
 });
 
 
+//get building by buildig id
+router.get('/aptmgmt/api/building/:_id',function(request, response){
+	console.log('get building  by id called for id:'+request.params._id);
+	
+	Building.getBuildingById(request.params._id,function(err,building){
+
+		if(err){
+			console.log("building.js -getBuildingById encountered error");
+			response.json(err);
+			return;
+		}
+		console.log("/api/building.js -getBuildingById db call success");
+		
+		response.json(building);
+	});
+	
+});
+
+
+//update building
+router.put('/aptmgmt/api/building/:_emailId',function(request, response){
+	var building = request.body;
+
+	console.log("/api/building.js - update building request for email id:"+request.params._emailId);
+	
+	Building.updateBuilding(request.params._emailId, building, function(err){
+
+		if(err){
+			response.json(err);
+			return;
+		}
+		
+
+   		response.json({status:202, message:"Building successfully updated"});
+	});
+});
 module.exports = router;

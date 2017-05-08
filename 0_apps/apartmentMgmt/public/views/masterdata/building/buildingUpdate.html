@@ -1,0 +1,129 @@
+<div ng-show="!myProfile.$dirty"
+   ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
+   {{response.status}} {{response.message}}
+</div>
+<br><br>
+<div class="panel panel-default" ng-init="getBuildingById()">
+   <div class="panel-heading">
+      <h3 class="panel-title">Master Data > Building</h3>
+   </div>
+   <div class="panel-body">
+      <div class="row">
+         <div class="col-md-12">
+            <form ng-submit="updateBuilding()" name="buildingInfo">
+               <input type="hidden" name="_csrf"/>
+               <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Building Name" ng-model="building.name">
+               </div>
+               <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" id="email" placeholder="Email ID" ng-model="building.contact.email">
+               </div>
+               <!-- phone Num section -->
+               <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#phoneNumBody">
+                     <a href="" class="nounderline">
+                        <h4 class="panel-title">Phone Numbers</h4>
+                     </a>
+                  </div>
+                  <div class="panel-body collapse" id="phoneNumBody">
+                     <div class="row">
+                        <div class="col-md-12 ">
+                           <div class="form-group" ng-repeat="phone in building.contact.phone track by $index">
+                              <div class="input-group">
+                                 <input type="text" class="form-control" id="phone" placeholder="Phone Num" ng-model="building.contact.phone[$index]">
+                                 <!-- <span class="input-group-addon" ng-model="building.contact.phone[$index]" id="phone">{{building.contact.phone[$index]}}</span> -->
+
+                                 <a href="" class="input-group-addon nounderline" ng-click="deletePhone()" >
+                                 Remove</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <button class="btn btn-info" ng-click="addAnotherPhone()" >Add another</button>
+                  </div>
+               </div>
+               <!-- Address section -->
+               <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#addressBody">
+                     <a href="" class="nounderline">
+                        <h4 class="panel-title">Address</h4>
+                     </a>
+                  </div>
+                  <div class="panel-body collapse" id="addressBody">
+                     <div class="col-md-12 ">
+                        <div class="form-group">
+                           <label for="address1">Address1</label>
+                           <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1">
+                        </div>
+                        <div class="form-group">
+                           <label for="address2">Address2</label>
+                           <input type="text" class="form-control" id="address2" placeholder="Address Line2" ng-model="building.address.address2">
+                        </div>
+                        <div class="form-group">
+                           <label for="address3">Address3</label>
+                           <input type="text" class="form-control" id="address3" placeholder="Address Line3" ng-model="building.address.address3">
+                        </div>
+                        <div class="form-group">
+                           <label for="postOffice">Post Office</label>
+                           <input type="text" class="form-control" id="postOffice" placeholder="Post Office" ng-model="building.address.postOffice">
+                        </div>
+                        <div class="form-group">
+                           <label for="city_vill">City/Village</label>
+                           <input type="text" class="form-control" id="city_vill" placeholder="City/Village" ng-model="building.address.city_vill">
+                        </div>
+                        <div class="form-group">
+                           <label for="district">District</label>
+                           <input type="text" class="form-control" id="district" placeholder="District" ng-model="building.address.district">
+                        </div>
+                        <div class="form-group">
+                           <label for="state">State</label>
+                           <input type="text" class="form-control" id="state" placeholder="State" ng-model="building.address.state">
+                        </div>
+                        <div class="form-group">
+                           <label for="country">Country</label>
+                           <input type="text" class="form-control" id="country" placeholder="Country" ng-model="building.address.country">
+                        </div>
+                        <div class="form-group">
+                           <label for="pin">Pin</label>
+                           <input type="text" class="form-control" id="pin" placeholder="Pin Code" ng-model="building.address.pin">
+                        </div>
+                        <div class="form-group">
+                           <label for="landmark">Landmark</label>
+                           <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- tower section -->
+               <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#committeeMembers">
+                     <a href="" class="nounderline">
+                        <h4 class="panel-title">Committee Members</h4>
+                     </a>
+                  </div>
+                  <div class="panel-body collapse in" id="committeeMembers">
+                     <div class="col-md-12 ">
+                        <div class="form-group" ng-repeat="cMember in building.committeeMembers track by $index">
+                           <div class="input-group">
+
+                              <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control">
+                              <span class="input-group-btn"  style="width:0px;"></span>
+
+                              <input type="text" class="form-control " id="cMember" placeholder="Committee Member" ng-model="building.committeeMembers[$index].user_id" disabled>
+
+                              <a href="" class="input-group-addon nounderline" ng-click="deleteMember()" >
+                              Remove</a>
+                           </div>
+                        </div>
+                     </div>
+                     <button class="btn btn-info" ng-click="addCommitteeMember()" >Add another</button>
+                  </div>
+               </div>
+               <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
