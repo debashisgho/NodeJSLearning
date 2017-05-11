@@ -98,8 +98,9 @@ var buildingSchema = mongoose.Schema({
 		{type:String,required:true,trim:true}
 	],
 	committeeMembers:[{
+			_id:false,
 			designation:{type:String, required:true,trim:true},
-			user_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
+			user_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',required: true}
 	}],
 
 
@@ -116,7 +117,9 @@ getBuildings = function(callback,limit){
 	Building.find(searchOptions,selectionRange,callback).limit(limit);
 }
 
+
 //Get User by Email
+
 
 getBuildingById = function(_id,callback){
 	console.log('/moddels/building.js - get building by id -:'+_id);

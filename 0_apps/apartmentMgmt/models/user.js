@@ -87,6 +87,16 @@ getUserByEmail = function(emailId,callback){
 }
 
 
+//Get user by id
+
+getUserById = function(_id, callback){
+	console.log('user.js - get user by id -id'+_id);
+	var searchOptions = {"_id":_id};
+	var selectionRange = {__v:0};
+	User.find(searchOptions, selectionRange,callback);
+}
+
+
 
 
 //Add User
@@ -118,6 +128,7 @@ deleteBook = function(id, callback){
 
 User.getUsers = getUsers;
 User.getUserByEmail = getUserByEmail;
+User.getUserById = getUserById;
 User.addUser = addUser;
 User.updateUser = updateUser;
 

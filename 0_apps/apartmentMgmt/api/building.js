@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 Building = require('../models/building');
+User = require('../models/user');
 
 
 //insert building
@@ -40,8 +41,8 @@ router.get('/aptmgmt/api/buildings',function(request, response){
 });
 
 
-//get building by buildig id
-router.get('/aptmgmt/api/building/:_id',function(request, response){
+//get building by building id
+/*router.get('/aptmgmt/api/building/:_id',function(request, response){
 	console.log('get building  by id called for id:'+request.params._id);
 	
 	Building.getBuildingById(request.params._id,function(err,building){
@@ -54,6 +55,53 @@ router.get('/aptmgmt/api/building/:_id',function(request, response){
 		console.log("/api/building.js -getBuildingById db call success");
 		
 		response.json(building);
+	});
+	
+});*/
+
+router.get('/aptmgmt/api/building/:_id',function(request, response){
+	console.log('get building  by id called for id:'+request.params._id);
+	
+	Building.getBuildingById(request.params._id,function(err,building){
+
+		if(err){
+			console.log("building.js -getBuildingById encountered error");
+			response.json(err);
+			return;
+		}
+		console.log("/api/building.js -getBuildingById db call success");
+		console.log(building[0]);
+		var buildingJSObj = building[0].toObject();
+		
+
+
+		console.log(buildingJSObj.committeeMembers);
+		for(var member of buildingJSObj.committeeMembers){
+			
+			var index=0;			
+			
+			User.getUserById(member.user_id,function(err,user){
+
+					if(err){
+						console.log("app.js -getUserByEmail encountered error");
+						response.json(err);
+						return;
+					}			
+					
+					buildingJSObj.committeeMembers[index].name=user[0].toObject().name; ;
+					index=index+1;
+					
+
+					if(buildingJSObj.committeeMembers.length == index){
+						//console.log("It is time to send response");
+						
+						response.json(buildingJSObj);
+					}
+								
+					 
+			});
+		};		
+		
 	});
 	
 });
