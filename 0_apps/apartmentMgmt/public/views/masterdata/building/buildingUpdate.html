@@ -3,9 +3,14 @@
    {{response.status}} {{response.message}}
 </div>
 <br><br>
+
+<div class="clearfix">
+        <button type="button" class="btn btn-primary btn-large pull-right" ng-click="editForm()">{{formEditButtonText}}</button>
+</div>
 <div class="panel panel-default" ng-init="getBuildingById()">
    <div class="panel-heading">
-      <h3 class="panel-title">Master Data > Building</h3>
+      <h3 class="panel-title pull-left">Master Data > Building</h3>      
+      <div class="clearfix"></div>
    </div>
    <div class="panel-body">
       <div class="row">
@@ -14,11 +19,11 @@
                <input type="hidden" name="_csrf"/>
                <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" placeholder="Building Name" ng-model="building.name">
+                  <input type="text" class="form-control" id="name" placeholder="Building Name" ng-model="building.name" ng-disabled="!formEditMode">
                </div>
                <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="text" class="form-control" id="email" placeholder="Email ID" ng-model="building.contact.email">
+                  <input type="text" class="form-control" id="email" placeholder="Email ID" ng-model="building.contact.email" ng-disabled="!formEditMode">
                </div>
                <!-- phone Num section -->
                <div class="panel panel-default">
@@ -32,16 +37,15 @@
                         <div class="col-md-12 ">
                            <div class="form-group" ng-repeat="phone in building.contact.phone track by $index">
                               <div class="input-group">
-                                 <input type="text" class="form-control" id="phone" placeholder="Phone Num" ng-model="building.contact.phone[$index]">
+                                 <input type="text" class="form-control" id="phone" placeholder="Phone Num" ng-model="building.contact.phone[$index]" ng-disabled="!formEditMode">
                                  <!-- <span class="input-group-addon" ng-model="building.contact.phone[$index]" id="phone">{{building.contact.phone[$index]}}</span> -->
-
-                                 <a href="" class="input-group-addon nounderline" ng-click="deletePhone()" >
+                                 <a href="" class="input-group-addon nounderline" ng-click="deletePhone()" ng-hide="!formEditMode">
                                  Remove</a>
                               </div>
                            </div>
                         </div>
                      </div>
-                     <button class="btn btn-info" ng-click="addAnotherPhone()" >Add another</button>
+                     <button class="btn btn-info" ng-click="addAnotherPhone()" ng-hide="!formEditMode">Add another</button>
                   </div>
                </div>
                <!-- Address section -->
@@ -55,43 +59,43 @@
                      <div class="col-md-12 ">
                         <div class="form-group">
                            <label for="address1">Address1</label>
-                           <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1">
+                           <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="address2">Address2</label>
-                           <input type="text" class="form-control" id="address2" placeholder="Address Line2" ng-model="building.address.address2">
+                           <input type="text" class="form-control" id="address2" placeholder="Address Line2" ng-model="building.address.address2" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="address3">Address3</label>
-                           <input type="text" class="form-control" id="address3" placeholder="Address Line3" ng-model="building.address.address3">
+                           <input type="text" class="form-control" id="address3" placeholder="Address Line3" ng-model="building.address.address3" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="postOffice">Post Office</label>
-                           <input type="text" class="form-control" id="postOffice" placeholder="Post Office" ng-model="building.address.postOffice">
+                           <input type="text" class="form-control" id="postOffice" placeholder="Post Office" ng-model="building.address.postOffice" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="city_vill">City/Village</label>
-                           <input type="text" class="form-control" id="city_vill" placeholder="City/Village" ng-model="building.address.city_vill">
+                           <input type="text" class="form-control" id="city_vill" placeholder="City/Village" ng-model="building.address.city_vill" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="district">District</label>
-                           <input type="text" class="form-control" id="district" placeholder="District" ng-model="building.address.district">
+                           <input type="text" class="form-control" id="district" placeholder="District" ng-model="building.address.district" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="state">State</label>
-                           <input type="text" class="form-control" id="state" placeholder="State" ng-model="building.address.state">
+                           <input type="text" class="form-control" id="state" placeholder="State" ng-model="building.address.state" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="country">Country</label>
-                           <input type="text" class="form-control" id="country" placeholder="Country" ng-model="building.address.country">
+                           <input type="text" class="form-control" id="country" placeholder="Country" ng-model="building.address.country" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="pin">Pin</label>
-                           <input type="text" class="form-control" id="pin" placeholder="Pin Code" ng-model="building.address.pin">
+                           <input type="text" class="form-control" id="pin" placeholder="Pin Code" ng-model="building.address.pin" ng-disabled="!formEditMode">
                         </div>
                         <div class="form-group">
                            <label for="landmark">Landmark</label>
-                           <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark">
+                           <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark" ng-disabled="!formEditMode">
                         </div>
                      </div>
                   </div>
@@ -103,31 +107,32 @@
                         <h4 class="panel-title">Committee Members</h4>
                      </a>
                   </div>
-                  <div class="panel-body collapse in" id="committeeMembers">
+                  <div class="panel-body collapse" id="committeeMembers">
                      <div class="col-md-12 ">
                         <div class="form-group" ng-repeat="cMember in building.committeeMembers track by $index">
                            <div class="input-group">
-
-                              <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation">
+                              <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
+                              <!-- <label  ng-hide="formEditMode">
+                              {{building.committeeMembers[$index].designation}} :</a>
+                              </label> -->
                               <span class="input-group-btn"  style="width:0px;"></span>
-
-                              <!-- <input type="text" class="form-control " id="cMember" placeholder="Committee Member" ng-model="building.committeeMembers[$index].user_id"> -->
-
-                              <input type="text" class="form-control " id="cMember" placeholder="Committee Member" ng-model="building.committeeMembers[$index].name.fullName">
-
-                              <a href="" class="input-group-addon nounderline" ng-click="deleteCommitteeMember()" >
+                              <input type="text" class="form-control " id="cMemberFullName" placeholder="Committee Member" ng-model="building.committeeMembers[$index].name.fullName" ng-disabled="!formEditMode" ng-hide="!formEditMode">
+                              <span  ng-hide="formEditMode"  class="form-control">
+                              <a href="/aptmgmt/masterdata/user/{{building.committeeMembers[$index].user_id}}">{{building.committeeMembers[$index].name.fullName}}</a>
+                              </span>
+                              <a href="" class="input-group-addon nounderline" ng-click="deleteCommitteeMember()" ng-hide="!formEditMode" >
                               Remove</a>
                            </div>
                         </div>
                      </div>
-                     <button class="btn btn-info" ng-click="addCommitteeMember()" >Add another</button>
+                     <button class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
                   </div>
                </div>
                <div class="form-group">
                   <label for="associatedEmails">Associated Emails</label>
-                  <input type="text" class="form-control" id="associatedEmails" placeholder="Associated Emails" ng-model="building.associatedEmails">
-               </div>               
-               <button type="submit" class="btn btn-primary">Update</button>
+                  <input type="text" class="form-control" id="associatedEmails" placeholder="Associated Emails" ng-model="building.associatedEmails" ng-disabled="!formEditMode">
+               </div>
+               <button type="submit" class="btn btn-primary" ng-hide="!formEditMode">Update</button>
             </form>
          </div>
       </div>

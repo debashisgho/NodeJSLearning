@@ -4,6 +4,24 @@ myApp.controller('buildingDataController', ['$scope', '$http', '$location', '$ro
 	console.log('BuildingDataController loaded...');
 
 SessionService.runInitialSetUp();
+$scope.formEditMode = false ; // during page load form will be on view mode.
+$scope.formEditButtonText = "Edit"; 
+
+$scope.editForm = function(){
+	
+	if($scope.formEditMode == false){
+		$scope.formEditButtonText = "Cancel Edit";
+		$scope.formEditMode = true;
+		return;
+	}
+
+	if($scope.formEditMode == true){
+		$scope.getBuildingById(); //refresh the $scope building data to ensure changes during edit are lost
+		$scope.formEditButtonText = "Edit";
+		$scope.formEditMode = false;
+		return;
+	}
+};
 
 $scope.getBuildings = function(){
 		console.log('getBuildings called');
