@@ -1,0 +1,12 @@
+.width50Percent{
+	width: 50%;
+}
+
+.capitalize{
+	text-transform: capitalize;
+}
+
+.nounderline{
+	text-decoration: none !important;
+}
+

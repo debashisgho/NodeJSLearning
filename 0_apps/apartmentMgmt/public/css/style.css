@@ -10,3 +10,14 @@
 	text-decoration: none !important;
 }
 
+/*for panel title for uib-accordion from ui.bootstrap - change color*/
+
+uib-accordion [class=panel-title] a span{
+	color: #337ab7;
+}
+
+/*for anchor tags in panel title for uib-accordion from ui.bootstrap - do not show the underline*/
+
+uib-accordion [class=panel-title] a {
+	text-decoration: none !important;
+}

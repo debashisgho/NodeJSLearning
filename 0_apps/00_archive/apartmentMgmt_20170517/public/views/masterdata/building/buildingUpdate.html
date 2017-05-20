@@ -1,0 +1,184 @@
+
+<!--   <div ng-app="myApp" ng-controller="buildingDataController as ctrl" layout="column" ng-cloak>
+  <md-content class="md-padding">
+    <form ng-submit="$event.preventDefault()">
+      <p>Use <code>md-autocomplete</code> to search for matches from local or remote data sources.</p>
+      <md-autocomplete
+          ng-disabled="ctrl.isDisabled"
+          md-no-cache="ctrl.noCache"
+          md-selected-item="ctrl.selectedItem"
+          md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+          md-search-text="ctrl.searchText"
+          md-selected-item-change="ctrl.selectedItemChange(item)"
+          md-items="item in ctrl.querySearch(ctrl.searchText)"
+          md-item-text="item.display"
+          md-min-length="0"
+          placeholder="What is your favorite US state?">
+        <md-item-template>
+          <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
+        </md-item-template>
+        <md-not-found>
+          No states matching "{{ctrl.searchText}}" were found.
+          <a ng-click="ctrl.newState(ctrl.searchText)">Create a new one!</a>
+        </md-not-found>
+      </md-autocomplete>
+      <br/>
+      <md-checkbox ng-model="ctrl.simulateQuery">Simulate query for results?</md-checkbox>
+      <md-checkbox ng-model="ctrl.noCache">Disable caching of queries?</md-checkbox>
+      <md-checkbox ng-model="ctrl.isDisabled">Disable the input?</md-checkbox>
+
+      <p>By default, <code>md-autocomplete</code> will cache results when performing a query.  After the initial call is performed, it will use the cached results to eliminate unnecessary server requests or lookup logic. This can be disabled above.</p>
+    </form>
+  </md-content>
+</div>
+ -->
+
+
+
+<div ng-show="!buildingInfo.$dirty"
+   ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
+   {{response.status}} {{response.message}}
+</div>
+<br><br>
+
+<div class="clearfix">
+        <button type="button" class="btn btn-primary btn-large pull-right" ng-click="editForm()">{{formEditButtonText}}</button>
+</div>
+<div class="panel panel-default" ng-init="getBuildingById()">
+   <div class="panel-heading">
+      <h3 class="panel-title pull-left">Master Data > Building</h3>      
+      <div class="clearfix"></div>
+   </div>
+   <div class="panel-body">
+      <div class="row">
+         <div class="col-md-12">
+            <form ng-submit="updateBuilding()" name="buildingInfo">
+               <input type="hidden" name="_csrf"/>
+               <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" class="form-control" id="name" placeholder="Building Name" ng-model="building.name" ng-disabled="!formEditMode">
+               </div>
+               <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="text" class="form-control" id="email" placeholder="Email ID" ng-model="building.contact.email" ng-disabled="!formEditMode">
+               </div>
+               <!-- phone Num section -->
+               <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#phoneNumBody">
+                     <a href="" class="nounderline">
+                        <h4 class="panel-title">Phone Numbers</h4>
+                     </a>
+                  </div>
+                  <div class="panel-body collapse" id="phoneNumBody">
+                     <div class="row">
+                        <div class="col-md-12 ">
+                           <div class="form-group" ng-repeat="phone in building.contact.phone track by $index">
+                              <div class="input-group">
+                                 <input type="text" class="form-control" id="phone" placeholder="Phone Num" ng-model="building.contact.phone[$index]" ng-disabled="!formEditMode">
+                                 <a href="" class="input-group-addon nounderline" ng-click="deletePhone()" ng-hide="!formEditMode">
+                                 Remove</a>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <button type="button" class="btn btn-info" ng-click="addAnotherPhone()" ng-hide="!formEditMode">Add another</button>
+                  </div>
+               </div>
+               <!-- Address section -->
+               <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#addressBody">
+                     <a href="" class="nounderline">
+                        <h4 class="panel-title">Address</h4>
+                     </a>
+                  </div>
+                  <div class="panel-body collapse" id="addressBody">
+                     <div class="col-md-12 ">
+                        <div class="form-group">
+                           <label for="address1">Address1</label>
+                           <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="address2">Address2</label>
+                           <input type="text" class="form-control" id="address2" placeholder="Address Line2" ng-model="building.address.address2" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="address3">Address3</label>
+                           <input type="text" class="form-control" id="address3" placeholder="Address Line3" ng-model="building.address.address3" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="postOffice">Post Office</label>
+                           <input type="text" class="form-control" id="postOffice" placeholder="Post Office" ng-model="building.address.postOffice" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="city_vill">City/Village</label>
+                           <input type="text" class="form-control" id="city_vill" placeholder="City/Village" ng-model="building.address.city_vill" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="district">District</label>
+                           <input type="text" class="form-control" id="district" placeholder="District" ng-model="building.address.district" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="state">State</label>
+                           <input type="text" class="form-control" id="state" placeholder="State" ng-model="building.address.state" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="country">Country</label>
+                           <input type="text" class="form-control" id="country" placeholder="Country" ng-model="building.address.country" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="pin">Pin</label>
+                           <input type="text" class="form-control" id="pin" placeholder="Pin Code" ng-model="building.address.pin" ng-disabled="!formEditMode">
+                        </div>
+                        <div class="form-group">
+                           <label for="landmark">Landmark</label>
+                           <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark" ng-disabled="!formEditMode">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Committee members section -->
+               <div class="panel panel-default">
+                  <div class="panel-heading" data-toggle="collapse" data-target="#committeeMembers">
+                     <a href="" class="nounderline">
+                        <h4 class="panel-title">Committee Members</h4>
+                     </a>
+                  </div>
+                  <div class="panel-body collapse" id="committeeMembers">
+                     <div class="col-md-12 ">
+                        <div class="form-group" ng-repeat="cMember in building.committeeMembers track by $index">
+                           <div class="input-group">
+                              <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
+
+                              <span class="input-group-btn"  style="width:0px;"></span>
+
+                              <input type="text" class="form-control " id="cMemberFullName" placeholder="Committee Member" ng-model="building.committeeMembers[$index].name.fullName" ng-disabled="!formEditMode" ng-hide="!formEditMode">
+
+                              <span  ng-hide="formEditMode"  class="form-control">
+                              <a href="/aptmgmt/masterdata/user/{{building.committeeMembers[$index].user_id}}">{{building.committeeMembers[$index].name.fullName}}</a>
+                              </span>
+                              <a href="" class="input-group-addon nounderline" ng-click="deleteCommitteeMember()" ng-hide="!formEditMode" >
+                              Remove</a>
+                           </div>
+                        </div>
+                     </div>
+                     <button type="button" class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
+                  </div>
+               </div>
+
+
+      
+               <!-- <div class="form-group">
+                  <label for="testName">AutoComplete Test</label>
+                  <input type="text" class="form-control" placeholder="AutoComplete example" ng-model="selected" uib-typeahead="testName for testName in testNames| filter:$viewValue| limitTo:3" id="testName" name="testName">
+               </div>
+               {{selected}} -->
+               <div class="form-group">
+                  <label for="associatedEmails">Associated Emails</label>
+                  <input type="text" class="form-control" id="associatedEmails" placeholder="Associated Emails" ng-model="building.associatedEmails" ng-disabled="!formEditMode">
+               </div>
+               <button type="submit" class="btn btn-primary" ng-hide="!formEditMode">Update</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
