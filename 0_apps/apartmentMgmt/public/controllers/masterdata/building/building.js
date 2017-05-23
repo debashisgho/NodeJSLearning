@@ -9,18 +9,150 @@ SessionService.runInitialSetUp();
 $scope.formEditMode = false ; // during page load form will be on view mode.
 $scope.formEditButtonText = "Edit"; 
 
-$scope.selected="";
-$scope.testNames =['Name1', 'Name2','Name3','Apple1','Ball'];
+//$scope.selectedCommitteeMembers=""; 
+
+//$scope.selected = "";
+//$scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
+
+//$scope.states =['Ghosh, Debashis','Guha, Swagata', 'Paul, Pallabi'];
+
+/*$scope.states =[
+{
+	_id:1,
+	fname:"Debashis",
+	lname:'Ghosh'
+	
+},
+
+{
+	_id:2,
+		fname:"Debashis1",
+	lname:'Ghosh'
+},
+
+{
+	_id:3,
+		fname:"Debashis2",
+	lname:'Ghosh'
+}
+
+];
+
+*/
+$scope.buildingMembers=[
+
+{	
+	name:{
+		first:"Ghosh1",
+		last:"Debashis1"
+	},
+	user_id:"58fced9a66928924e8db4501"
+
+},
+
+{
+	name:{
+		first:"Ghosh2",
+		last:"Debashis2"
+	},
+	user_id:"58fced9a66928924e8db4502"
+
+},
+
+{
+	name:{
+		first:"Ghosh3",
+		last:"Debashis3"
+	},
+	user_id:"58fced9a66928924e8db4503"
+}
+
+];
+
+
+/*
+
+
+$scope.getMembersOfBuilding = function(name){
+
+	return $scope.states;
+
+}*/
+
+$scope.reStructureCommitteeMembers = function(){
+
+
+	//console.log($scope.building.committeeMembers);
+	var cMembers =$scope.building.committeeMembers;
+	var modCMembers =[];
+	var tempCMember=null;
+	
+	for(var i=0; i<cMembers.length;i++){
+		tempCMember={};
+		tempCMember.name={};
+		//console.log(cMembers[i]);
+		
+		tempCMember.designation = cMembers[i].designation;
+		if(angular.isDefined(cMembers[i].name.fullName.name)){ //this member was modified
+			//console.log("defined");
+			tempCMember.name.first= cMembers[i].name.fullName.name.first;
+			tempCMember.name.last= cMembers[i].name.fullName.name.last;
+			tempCMember.user_id= cMembers[i].name.fullName.user_id;
+		}
+
+		else{
+			//console.log("not defined");
+			tempCMember.name.first= cMembers[i].name.first;
+			tempCMember.name.last= cMembers[i].name.last;
+			tempCMember.user_id= cMembers[i].user_id;
+		}
+
+		modCMembers.push(tempCMember);
+		tempCMember = new Object();
+	}
+$scope.building.committeeMembers = modCMembers;
+//console.log($scope.building.committeeMembers);
+
+};
+
+$scope.getMembersOfBuildingTest = function(name){
+
+	return $scope.buildingMembers;
+
+};
+
+
+$scope.getUsersByBuildingId= function(){
+
+	console.log('getUsersByBuildingId called');
+		$http.get('/aptmgmt/api/masterdata/building/'+building._id+'users/').then(function(response){			
+			console.log(response.data);
+			$scope.users = response.data;
+		});
+
+}
+
 
 $scope.editForm = function(){
 	
 	if($scope.formEditMode == false){
+		//committee members may be edited - copy the original committee members to the selected value so that they can 
+		//be displayed in the typeahead dropdown
+		//$scope.selectedCommitteeMembers = $scope.building.committeeMembers;
+
+		//console.log("----");
+		//console.log($scope.selectedCommitteeMembers);
+
 		$scope.formEditButtonText = "Cancel Edit";
 		$scope.formEditMode = true;
 		return;
 	}
 
 	if($scope.formEditMode == true){
+		console.log($scope.selectedCommitteeMembers);
+		console.log("nullify");
+		//$scope.selectedCommitteeMembers =null;
+		//console.log($scope.selectedCommitteeMembers);
 		$scope.getBuildingById(); //refresh the $scope building data to ensure changes during edit are lost
 		$scope.formEditButtonText = "Edit";
 		$scope.formEditMode = false;
@@ -43,11 +175,13 @@ $scope.getBuildingById = function(){
 			
 			var building = response.data;
 			console.log(building);
+			
 			for(var i=0; i<building.committeeMembers.length;i++){
 
 				building.committeeMembers[i].name.fullName=building.committeeMembers[i].name.last+","+building.committeeMembers[i].name.first;
 			}
 			$scope.building = building;
+			//$scope.selectedCommitteeMembers = angular.copy($scope.building.committeeMembers);
 			console.log($scope.building);
 		});
 	};
@@ -57,9 +191,11 @@ $scope.updateBuilding = function(){
 		console.log("controller updateProfile started");
 		
 		//modify the extra data from building that is not expected by backend. 
-		for(var i=0; i<$scope.building.committeeMembers.length; i++){			
+		/*for(var i=0; i<$scope.building.committeeMembers.length; i++){			
 			delete $scope.building.committeeMembers[i].name.fullName;
-		}
+		}*/
+
+		this.reStructureCommitteeMembers();//it is done to send committeeMembers structures properly to backend
 		console.log($scope.building);
 		$http.put('/aptmgmt/api/masterdata/building/'+$scope.building._id, $scope.building).then(function(response){
 			console.log("finished http call");
@@ -96,6 +232,7 @@ $scope.addAnotherPhone= function(){
 $scope.deletePhone= function(){
 		console.log("delete phone called");
 		console.log($scope.building.contact.phone);
+
 		$scope.building.contact.phone.splice(this.$index,1);
 		/*$scope.building.contact.phone[0]="hello";*/
 	};
@@ -103,6 +240,7 @@ $scope.deletePhone= function(){
 $scope.addCommitteeMember= function(){
 		console.log("add another member called");
 		console.log($scope.building.committeeMembers);
+		//console.log($scope.selectedCommitteeMembers);
 		$scope.building.committeeMembers.push("");
 	};
 
@@ -112,4 +250,7 @@ $scope.deleteCommitteeMember= function(){
 		$scope.building.committeeMembers.splice(this.$index,1);
 	};
 
+
+
+  
 }]);
