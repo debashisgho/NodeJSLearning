@@ -1,23 +1,3 @@
-<!-- <div class='container-fluid'>
-
-    <h4>Static arrays</h4>
-    
-    <input type="text" ng-model="$scope.selected" uib-typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
-
-
-    <h4>Asynchronous results</h4>
-    Selected value is =<span>{{$scope.selected}}</span>
-    <input type="text" ng-model="$scope.selected" placeholder="Locations loaded via $http" uib-typeahead="state as state.lname+','+state.fname for state in getMembersOfBuilding($viewValue)| filter:$viewValue | limitTo:8" typeahead-loading="loadingLocations" 
-    typeahead-no-results="noResults" class="form-control">
-    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-    <div ng-show="noResults">
-      <i class="glyphicon glyphicon-remove"></i> No Results Found
-    </div>
-
-
-</div>
- -->
-
 
 <div ng-show="!buildingInfo.$dirty"
    ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
@@ -25,7 +5,7 @@
 </div>
 <br><br>
 <div class="clearfix">
-   <button type="button" class="btn btn-primary btn-large pull-right" ng-click="editForm()">{{formEditButtonText}}</button>
+   <button type="button" class="btn btn-info btn-large pull-right" ng-click="editForm()">{{formEditButtonText}}</button>
 </div>
 <div class="panel panel-default" ng-init="getBuildingById()">
    <div class="panel-heading">
@@ -217,29 +197,20 @@
                            <div class="input-group">
                               <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
                               <span class="input-group-btn"  style="width:0px;"></span>
-                              <!-- <input type="text" class="form-control " id="cMemberFullName" placeholder="Committee Member" ng-model="building.committeeMembers[$index].name.fullName" ng-disabled="!formEditMode" ng-hide="!formEditMode"> -->
 
-
-                               
-                                <!-- Print Original: {{building.committeeMembers[$index]}}; -->
                                   <input type="text" ng-model="building.committeeMembers[$index].name.fullName" placeholder="Committee member" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuildingTest($viewValue)| filter:$viewValue | limitTo:8" typeahead-loading="loadingMembers" 
                                   typeahead-no-results="noResults" class="form-control" ng-disabled="!formEditMode" ng-hide="!formEditMode">
                                   <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                                  <!-- <div ng-show="noResults">
-                                    <i class="glyphicon glyphicon-remove"></i> No Results Found
-                                  </div> -->
-
-
-
+  
 
                               <span  ng-hide="formEditMode"  class="form-control">
                               <a href="/aptmgmt/masterdata/user/{{building.committeeMembers[$index].user_id}}">{{building.committeeMembers[$index].name.last}},{{building.committeeMembers[$index].name.first}}</a>
                               </span>
-                              <a href="" class="input-group-addon nounderline" ng-click="deleteCommitteeMember()" ng-hide="!formEditMode" >
+                              <a href="" class="input-group-addon btn btn-danger" ng-click="deleteCommitteeMember()" ng-hide="!formEditMode"   >
                               Remove</a>
                            </div>
                         </div>
-                     </div>
+            </div>
                      <button type="button" class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
               
     </div>
@@ -274,11 +245,30 @@
                   </div>
                </div>
  -->
-                              <!-- <div class="form-group">
-                  <label for="testName">AutoComplete Test</label>
-                  <input type="text" class="form-control" placeholder="AutoComplete example" ng-model="selected" uib-typeahead="testName for testName in testNames| filter:$viewValue| limitTo:3" id="testName" name="testName">
-                  </div>
-                  {{selected}} -->
+
+ <!-- Room Details -->
+
+
+<uib-accordion >
+    <div uib-accordion-group class="panel-default" heading="Room Details">
+       <div class="col-md-12 ">
+            <div class="form-group">
+               
+               <a class="btn btn-success" href="/aptmgmt/masterdata/building/{{building._id}}/rooms">Show Rooms</a>
+            </div>    
+
+      </div>
+    </div>           
+</uib-accordion>
+
+
+
+
+
+
+
+
+<!-- Associated Emails -->                
                <div class="form-group">
                   <label for="associatedEmails">Associated Emails</label>
                   <input type="text" class="form-control" id="associatedEmails" placeholder="Associated Emails" ng-model="building.associatedEmails" ng-disabled="!formEditMode">

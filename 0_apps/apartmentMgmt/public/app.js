@@ -41,6 +41,10 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'MasterDataController',
 		templateUrl: '/views/user/user.html'
 	})
+	.when('/aptmgmt/masterdata/building/:_buildingId/rooms',{
+		controller:'RoomDataController',
+		templateUrl:'/views/masterdata/room/room.html'
+	})
 
 	.when('/aptmgmt/masterdata', {
 		controller:'MasterDataController',

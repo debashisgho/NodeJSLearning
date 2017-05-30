@@ -7,7 +7,7 @@ var roomSchema = mongoose.Schema({
         {type: String, required: true, trim: true},
 
   	tower:
-		{type: String, required: true, trim:true},
+		{ type : mongoose.Schema.Types.ObjectId, ref: 'Tower'},
 	
 	floorNo:
 		{type: String, trim: true},
@@ -22,10 +22,10 @@ var roomSchema = mongoose.Schema({
 
 	owner_details:{ 
 
-			current:{				
+			current:[{				
 				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
 					  fromDate:{type:Date,required:true},
-			},		
+			}],		
 
 			previous:[{
 				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
@@ -49,6 +49,10 @@ var roomSchema = mongoose.Schema({
 			}]
 			
 		},				
+
+	other_contats:[{
+				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
+	}],
 
 	create_date:{
 		type:Date, default: Date.now

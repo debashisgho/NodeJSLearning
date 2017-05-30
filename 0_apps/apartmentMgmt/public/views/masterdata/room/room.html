@@ -1,0 +1,49 @@
+<div class="panel panel-default" ng-init="getTowersByBuildingId()">
+  <div class="panel-heading">
+    <h3 class="panel-title">Master Data > Building > Room</h3>
+  </div>
+  <div class="panel-body">
+
+  <div class="container">
+
+  
+<!--  <div class="form-inline">
+  <div class="form-group">
+  <label for="towerOptions"> Tower: </label>   
+    <select name="towerOptions" id="towerOptions" ng-model="selectedTower" class="form-control">
+      <option ng-repeat="tower in towers" value="{{tower._id}}">{{tower.name}}</option>
+    </select>
+   
+   </div>
+   </div> -->
+   
+  <select name="towerOptions" id="towerOptions" ng-model="selectedTower" class="form-control">
+      <option ng-repeat="tower in towers" value="{{tower._id}}">{{tower.name}}</option>
+    </select>
+
+  <br>
+
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr class="active">
+          <th>Name</th>
+          <th>Type</th>
+          <th>Pin Code</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="building in buildings">
+          <td><a href="/aptmgmt/masterdata/building/{{building._id}}">{{building.name}}</a></td>
+          <td>{{building.details.type}}</td>
+          <td>{{building.address.pin}}</td>
+          <td>{{building.contact.email}}</td>
+
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+
+
+

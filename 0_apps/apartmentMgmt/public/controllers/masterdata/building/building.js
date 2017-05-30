@@ -250,7 +250,11 @@ $scope.deleteCommitteeMember= function(){
 		$scope.building.committeeMembers.splice(this.$index,1);
 	};
 
+/*$scope.goToRooms =function(){
+		console.log("inside goToRooms");
+		$location.
 
+};*/
 
   
 }]);

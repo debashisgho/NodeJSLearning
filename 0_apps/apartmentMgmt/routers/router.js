@@ -6,6 +6,7 @@ var router = express.Router();
 
 router.use(require('../api/user.js'));
 router.use(require('../api/masterdata/building.js'));
+router.use(require('../api/masterdata/tower.js'));
 router.use(require('../api/masterdata/room.js'));
 router.use(require('../api/masterdata/masterdata.js')); 
 
