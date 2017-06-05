@@ -29,7 +29,7 @@ myApp.config(function($routeProvider,$locationProvider){
 
 	.when('/aptmgmt/masterdata/building/:id', {
 		controller:'buildingDataController',
-		templateUrl: '/views/masterdata/building/buildingUpdate.html'
+		templateUrl: '/views/masterdata/building/buildingSingle.html'
 	})
 
 	.when('/aptmgmt/masterdata/building', {
@@ -45,7 +45,10 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'RoomDataController',
 		templateUrl:'/views/masterdata/room/room.html'
 	})
-
+	.when('/aptmgmt/masterdata/building/:_buildingId/rooms/add',{
+		controller:'RoomDataController',
+		templateUrl:'/views/masterdata/room/roomAdd.html'
+	})
 	.when('/aptmgmt/masterdata', {
 		controller:'MasterDataController',
 		templateUrl: '/views/masterdata/masterdata.html'

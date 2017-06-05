@@ -1,6 +1,6 @@
 <div class="panel panel-default" ng-init="getTowersByBuildingId()">
   <div class="panel-heading">
-    <h3 class="panel-title">Master Data > Building > Room</h3>
+    <h3 class="panel-title">Master Data > Building > {{_buildingId}} > Room</h3>
   </div>
   <div class="panel-body">
 
@@ -17,6 +17,15 @@
    </div>
    </div> -->
    
+            
+               
+  <a class="btn btn-info form-control" href="/aptmgmt/masterdata/building/{{_buildingId}}/rooms/add">Add new Room</a>
+
+  <br>
+  <br>      
+
+   
+
   <select name="towerOptions" id="towerOptions" ng-model="selectedTower" class="form-control">
       <option ng-repeat="tower in towers" value="{{tower._id}}">{{tower.name}}</option>
     </select>
@@ -26,18 +35,18 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr class="active">
-          <th>Name</th>
-          <th>Type</th>
-          <th>Pin Code</th>
-          <th>Email</th>
+          <th>Number</th>
+          <th>Floor</th>
+          <th>Area</th>
+          <th>Owners</th>
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="building in buildings">
-          <td><a href="/aptmgmt/masterdata/building/{{building._id}}">{{building.name}}</a></td>
-          <td>{{building.details.type}}</td>
-          <td>{{building.address.pin}}</td>
-          <td>{{building.contact.email}}</td>
+        <tr ng-repeat="room in rooms">
+          <td><a href="/aptmgmt/masterdata/building/{{room._id}}">{{room.roomNo}}</a></td>
+          <td>{{room.floorNo}}</td>
+          <td>{{room.area_details.area}} {{room.area_details.measurementUnit}}</td>
+          <td>{{room.owner_details.current[0].name.last}},{{room.owner_details.current[0].name.first}}</a></td>
 
       </tbody>
     </table>

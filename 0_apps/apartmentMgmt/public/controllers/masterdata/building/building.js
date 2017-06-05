@@ -2,7 +2,7 @@ var myApp = angular.module('myApp');
 
 //var myApp = angular.module('myApp',['ngMaterial']);
 
-myApp.controller('buildingDataController', ['$scope', '$http', '$location', '$routeParams','SessionService', function($scope, $http, $location, $routeParams,SessionService){
+myApp.controller('buildingDataController', ['$scope','$rootScope', '$http', '$location', '$routeParams','SessionService', function($scope,$rootScope, $http, $location, $routeParams,SessionService){
 	console.log('BuildingDataController loaded...');
 
 SessionService.runInitialSetUp();
@@ -183,6 +183,7 @@ $scope.getBuildingById = function(){
 			$scope.building = building;
 			//$scope.selectedCommitteeMembers = angular.copy($scope.building.committeeMembers);
 			console.log($scope.building);
+			//$rootScope.building=building;
 		});
 	};
 $scope.updateBuilding = function(){

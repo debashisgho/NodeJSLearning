@@ -29,3 +29,7 @@ uib-accordion [class=panel-title] a span{
 uib-accordion [class=panel-title] a {
 	text-decoration: none !important;
 }
+
+.no-margin-left{
+	margin-left: 0px !important;
+}
