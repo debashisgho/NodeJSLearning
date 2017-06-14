@@ -31,9 +31,17 @@ var roomSchema = mongoose.Schema({
 				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
 				fromDate:{type:Date,required:true},
 				toDate:{type:Date,required:true}
-			}]
+			}]			
 			
 		},	
+
+	others:{
+
+			othersLiving:[{
+				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
+			}]
+
+		},
 
 	rent_details:{ 
 
@@ -50,10 +58,7 @@ var roomSchema = mongoose.Schema({
 			
 		},				
 
-	other_contats:[{
-				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
-	}],
-
+	
 	create_date:{
 		type:Date, default: Date.now
 	}

@@ -1,264 +1,236 @@
-<div ng-show="!buildingInfo.$dirty"
-   ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
-   {{response.status}} {{response.message}}
+<div ng-show="!buildingInfo.$dirty" ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
+    {{response.status}} {{response.message}}
 </div>
-<br><br>
+<br>
+<br>
 <div class="panel panel-default">
-   <div class="panel-heading">
-      <h3 class="panel-title pull-left">Master Data > Building > Room > Add Room</h3>
-      <div class="clearfix"></div>
-   </div>
-   <div class="panel-body">
-      <div class="row">
-         <div class="col-md-12">
-            <form ng-submit="addRoom()" name="roomAdd">
-               <input type="hidden" name="_csrf"/>
-               <div class="form-group">
-                  <label for="roomNo">Room No.</label>
-                  <input type="text" class="form-control" id="roomNo" placeholder="Room Number" ng-model="room.roomNo">
-               </div>
-               <div class="form-group">
-                  <label for="tower">Tower</label>
-                  <input type="text" class="form-control" id="tower" placeholder="Tower" ng-model="room.tower" >
-               </div>
-               <div class="form-group">
-                  <label for="floorNo">Floor No</label>
-                  <input type="text" class="form-control" id="floorNo" placeholder="Floor Number" ng-model="room.floorNo" >
-               </div>
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left">Master Data > Building > Room > Add Room</h3>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <form ng-submit="addRoom()" name="roomAdd">
+                    <input type="hidden" name="_csrf" />
+                    <div class="form-group">
+                        <label for="roomNo">Room No.</label>
+                        <input type="text" class="form-control" id="roomNo" placeholder="Room Number" ng-model="room.roomNo">
+                    </div>
+                    <div class="form-group">
+                        <label for="tower">Tower</label>
+                        <input type="text" class="form-control" id="tower" placeholder="Tower" ng-model="room.tower">
+                    </div>
+                    <div class="form-group">
+                        <label for="floorNo">Floor No</label>
+                        <input type="text" class="form-control" id="floorNo" placeholder="Floor Number" ng-model="room.floorNo">
+                    </div>
 
-              <!--  <div class="form-group clearfix" >
-                  <label for="area">Area</label>
-                  <div id="area">
-                  <div class="col-md-6 no-margin-left">
-                  <input type="text" class="form-control" id="areaVal" placeholder="Carpet Area" ng-model="room.area_details.area" >
-                  </div>
-                  <div class="col-md-6 ">
-                  <input type="text" class="form-control" id="areaUnit" placeholder="Sq.ft" ng-model="room.area_details.measurementUnit" ng-disabled="true">
-                  </div>
-                  </div>
-               </div> -->
 
-                <div class="form-group" >
-                  <label for="area">Area</label>                 
-                  
-                  <div class="input-group">
-                  <input type="text" class="form-control" id="areaVal" placeholder="Carpet Area" ng-model="room.area_details.area" >
-                  <span class="input-group-addon">Sq.ft.</span>
-                  </div>
-                  
-                  <!-- 
-                  <div class="col-md-6 ">
-                  <input type="text" class="form-control" id="areaUnit" placeholder="Sq.ft" ng-model="room.area_details.measurementUnit" ng-disabled="true">
-                  </div> -->
-               </div>
+                    <div class="form-group">
+                        <label for="area">Area</label>
 
-               <uib-accordion >
-                  <div uib-accordion-group class="panel-default" heading="Phone Numbers">
-                     <div class="row">
-                        <div class="col-md-12 ">
-                           <div class="form-group" ng-repeat="phone in building.contact.phone track by $index">
-                              <div class="input-group">
-                                 <input type="text" class="form-control" id="phone" placeholder="Phone Num" ng-model="building.contact.phone[$index]" ng-disabled="!formEditMode">
-                                 <a href="" class="input-group-addon nounderline" ng-click="deletePhone()" ng-hide="!formEditMode">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="area" placeholder="Carpet Area" ng-model="room.area_details.area">
+                            <span class="input-group-addon">
+                    {{measurementAreaUnit}}
+                  </span>
+                        </div>
+                    </div>
+
+                    <!-- owner details -->
+                    <!-- current owner -->
+                    
+
+
+ <uib-accordion>
+    <div uib-accordion-group class="panel-default" heading="Owners">
+
+        <div class="col-md-12 ">
+            <div class="form-group" ng-repeat="currOwner in room.owner_details.current track by $index">
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="currOwner" placeholder="Name" ng-model="room.owner_details.current[$index].name.fullName">
+                    <a href="" class="input-group-addon nounderline" ng-click="deleteCurrentOwner()">
                                  Remove</a>
-                              </div>
-                           </div>
+                </div>
+
+
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="currOwnerFrom">From</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="room.owner_details.current[$index].fromDate" is-open="popUpCurrOwnerFromDate[$index].opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" id="currOwnerFrom" />
+                            <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openPopUpCurrOwnerFromDate()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+
                         </div>
-                     </div>
-                     <button type="button" class="btn btn-info" ng-click="addAnotherPhone()" ng-hide="!formEditMode">Add another</button>
-                  </div>
-               </uib-accordion>
-               <!-- it is designed with bootstrap.js -->
-               <!--  <div class="panel panel-default">
-                  <div class="panel-heading" data-toggle="collapse" data-target="#phoneNumBody">
-                     <a href="" class="nounderline">
-                        <h4 class="panel-title">Phone Numbers</h4>
-                     </a>
-                  </div>
-                  <div class="panel-body collapse" id="phoneNumBody">
-                     <div class="row">
-                        <div class="col-md-12 ">
-                           <div class="form-group" ng-repeat="phone in building.contact.phone track by $index">
-                              <div class="input-group">
-                                 <input type="text" class="form-control" id="phone" placeholder="Phone Num" ng-model="building.contact.phone[$index]" ng-disabled="!formEditMode">
-                                 <a href="" class="input-group-addon nounderline" ng-click="deletePhone()" ng-hide="!formEditMode">
+
+
+                       
+                    </div>
+
+                </div>
+                <hr>
+            </div>
+        </div>
+        <button type="button" class="btn btn-info form-control" ng-click="addCurrentOwner()">Add Current Owner</button>
+        <br>
+    <br>
+
+        <!-- previous owner -->
+    <uib-accordion>
+        <div uib-accordion-group class="panel-default" heading="Previous Owners">
+            
+                <!-- <div class="col-md-12 ">
+                    <div class="form-group" ng-repeat="prevOwner in room.owner_details.previous track by $index">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="prevOwner" placeholder="Previous Owner" ng-model="room.owner_details.previous[$index]">
+                            <a href="" class="input-group-addon nounderline" ng-click="deletePreviousOwner()">
+                                             Remove</a>
+                        </div>
+                    </div>
+                </div> -->
+
+                    <!-- start  -->
+
+        <div class="col-md-12 ">
+            <div class="form-group" ng-repeat="prevOwner in room.owner_details.previous track by $index">
+
+                <div class="input-group">
+                    <input type="text" class="form-control" id="prevOwner" placeholder="Name" ng-model="room.owner_details.previous[$index].name.fullName">
+                    <a href="" class="input-group-addon nounderline" ng-click="deletePreviousOwner()">
                                  Remove</a>
-                              </div>
-                           </div>
-                  
+                </div>
+
+
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="prevOwnerFrom">From</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="room.owner_details.previous[$index].fromDate" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" id="prevOwnerFrom" />
+                            <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+
                         </div>
-                     </div>
-                     <button type="button" class="btn btn-info" ng-click="addAnotherPhone()" ng-hide="!formEditMode">Add another</button>
-                  </div>
-                  </div> -->
-               <!-- Address section -->
-               <!-- designed with ui.bootstrap -->
-               <uib-accordion >
-                  <div uib-accordion-group class="panel-default" heading="Address">
-                     <div class="col-md-12 ">
-                        <div class="form-group">
-                           <label for="address1">Address1</label>
-                           <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1" ng-disabled="!formEditMode">
+
+
+                        <label for="prevOwnerTo">To</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup="yyyy/MM/dd" ng-model="room.owner_details.previous[$index].toDate" is-open="popup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" id="prevOwnerTo" />
+                            <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+
                         </div>
-                        <div class="form-group">
-                           <label for="address2">Address2</label>
-                           <input type="text" class="form-control" id="address2" placeholder="Address Line2" ng-model="building.address.address2" ng-disabled="!formEditMode">
+
+
+                       
+                    </div>
+
+                </div>
+                <hr>
+            </div>
+        </div>
+        <button type="button" class="btn btn-info form-control" ng-click="addPreviousOwner()">Add Previous Owner</button>
+
+
+                    <!-- End -->
+
+
+
+
+
+
+
+          <!--   <button type="button" class="btn btn-info form-control" ng-click="addPreviousOwner()">Add Previous Owner</button> -->
+
+
+        </div>
+    </uib-accordion>
+    </div>
+
+    
+    
+
+    
+</uib-accordion>
+
+
+
+
+
+
+
+
+                    <!-- Rent details -->
+                    <!-- current Rent -->
+                    <uib-accordion>
+                        <div uib-accordion-group class="panel-default" heading="Rent Details">
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="form-group" ng-repeat="currRent in room.rent_details.current track by $index">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="currRent" placeholder="Current Rent Details" ng-model="room.rent_details.current[$index]">
+                                            <a href="" class="input-group-addon nounderline" ng-click="deleteCurrentRent()">
+                                 Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-info form-control" ng-click="addCurrentRent()">Add Current Rent</button>
+
+                            <br>
+                            <br>
+                            <!-- previous Rent -->
+                            <uib-accordion>
+                                <div uib-accordion-group class="panel-default" heading="Previous Rent">
+                                    <div class="row">
+                                        <div class="col-md-12 ">
+                                            <div class="form-group" ng-repeat="prevRent in room.rent_details.previous track by $index">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="prevRent" placeholder="Previous Rent Details" ng-model="room.rent_details.previous[$index]">
+                                                    <a href="" class="input-group-addon nounderline" ng-click="deletePreviousRent()">
+                                             Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-info form-control" ng-click="addPreviousRent()">Add Previous Owner</button>
+
+
+                                </div>
+                            </uib-accordion>
+
                         </div>
-                        <div class="form-group">
-                           <label for="address3">Address3</label>
-                           <input type="text" class="form-control" id="address3" placeholder="Address Line3" ng-model="building.address.address3" ng-disabled="!formEditMode">
+                    </uib-accordion>
+
+                    <!-- others living in the same room -->
+
+                    <uib-accordion>
+                        <div uib-accordion-group class="panel-default" heading="Others Living">
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="form-group" ng-repeat="otherLiving in room.others.othersLiving track by $index">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="prevRent" placeholder="Who else lives here" ng-model="room.others.otherLiving[$index]">
+                                            <a href="" class="input-group-addon nounderline" ng-click="deleteOthersLiving()">
+                                             Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-info form-control" ng-click="addOthersLiving()">Add others living</button>
+
+
                         </div>
-                        <div class="form-group">
-                           <label for="postOffice">Post Office</label>
-                           <input type="text" class="form-control" id="postOffice" placeholder="Post Office" ng-model="building.address.postOffice" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="city_vill">City/Village</label>
-                           <input type="text" class="form-control" id="city_vill" placeholder="City/Village" ng-model="building.address.city_vill" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="district">District</label>
-                           <input type="text" class="form-control" id="district" placeholder="District" ng-model="building.address.district" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="state">State</label>
-                           <input type="text" class="form-control" id="state" placeholder="State" ng-model="building.address.state" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="country">Country</label>
-                           <input type="text" class="form-control" id="country" placeholder="Country" ng-model="building.address.country" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="pin">Pin</label>
-                           <input type="text" class="form-control" id="pin" placeholder="Pin Code" ng-model="building.address.pin" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="landmark">Landmark</label>
-                           <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark" ng-disabled="!formEditMode">
-                        </div>
-                     </div>
-                  </div>
-               </uib-accordion>
-               <!-- desinged with bootstrap.js -->
-               <!--  <div class="panel panel-default">
-                  <div class="panel-heading" data-toggle="collapse" data-target="#addressBody">
-                     <a href="" class="nounderline">
-                        <h4 class="panel-title">Address</h4>
-                     </a>
-                  </div>
-                  <div class="panel-body collapse" id="addressBody">
-                     <div class="col-md-12 ">
-                        <div class="form-group">
-                           <label for="address1">Address1</label>
-                           <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="address2">Address2</label>
-                           <input type="text" class="form-control" id="address2" placeholder="Address Line2" ng-model="building.address.address2" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="address3">Address3</label>
-                           <input type="text" class="form-control" id="address3" placeholder="Address Line3" ng-model="building.address.address3" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="postOffice">Post Office</label>
-                           <input type="text" class="form-control" id="postOffice" placeholder="Post Office" ng-model="building.address.postOffice" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="city_vill">City/Village</label>
-                           <input type="text" class="form-control" id="city_vill" placeholder="City/Village" ng-model="building.address.city_vill" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="district">District</label>
-                           <input type="text" class="form-control" id="district" placeholder="District" ng-model="building.address.district" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="state">State</label>
-                           <input type="text" class="form-control" id="state" placeholder="State" ng-model="building.address.state" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="country">Country</label>
-                           <input type="text" class="form-control" id="country" placeholder="Country" ng-model="building.address.country" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="pin">Pin</label>
-                           <input type="text" class="form-control" id="pin" placeholder="Pin Code" ng-model="building.address.pin" ng-disabled="!formEditMode">
-                        </div>
-                        <div class="form-group">
-                           <label for="landmark">Landmark</label>
-                           <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark" ng-disabled="!formEditMode">
-                        </div>
-                     </div>
-                  </div>
-                  </div> -->
-               <!-- Committee members section -->
-               <!-- designed with ui.bootstrap -->
-               <!-- the below is almost working with a copy of the building.committeeMembers-->
-               <uib-accordion >
-                  <div uib-accordion-group class="panel-default" heading="Committee Members">
-                     <div class="col-md-12 ">
-                        <div class="form-group" ng-repeat="cMember in building.committeeMembers track by $index">
-                           <div class="input-group">
-                              <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
-                              <span class="input-group-btn"  style="width:0px;"></span>
-                              <input type="text" ng-model="building.committeeMembers[$index].name.fullName" placeholder="Committee member" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuildingTest($viewValue)| filter:$viewValue | limitTo:8" typeahead-loading="loadingMembers" 
-                                 typeahead-no-results="noResults" class="form-control" ng-disabled="!formEditMode" ng-hide="!formEditMode">
-                              <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-                              <span  ng-hide="formEditMode"  class="form-control">
-                              <a href="/aptmgmt/masterdata/user/{{building.committeeMembers[$index].user_id}}">{{building.committeeMembers[$index].name.last}},{{building.committeeMembers[$index].name.first}}</a>
-                              </span>
-                              <a href="" class="input-group-addon btn btn-danger" ng-click="deleteCommitteeMember()" ng-hide="!formEditMode"   >
-                              Remove</a>
-                           </div>
-                        </div>
-                     </div>
-                     <button type="button" class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
-                  </div>
-               </uib-accordion>
-               <!-- designed with bootstrap.js -->
-               <!--  <div class="panel panel-default">
-                  <div class="panel-heading" data-toggle="collapse" data-target="#committeeMembers">
-                     <a href="" class="nounderline">
-                        <h4 class="panel-title">Committee Members</h4>
-                     </a>
-                  </div>
-                  <div class="panel-body collapse" id="committeeMembers">
-                     <div class="col-md-12 ">
-                        <div class="form-group" ng-repeat="cMember in building.committeeMembers track by $index">
-                           <div class="input-group">
-                              <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
-                              <span class="input-group-btn"  style="width:0px;"></span>
-                              <input type="text" class="form-control " id="cMemberFullName" placeholder="Committee Member" ng-model="building.committeeMembers[$index].name.fullName" ng-disabled="!formEditMode" ng-hide="!formEditMode">
-                              <span  ng-hide="formEditMode"  class="form-control">
-                              <a href="/aptmgmt/masterdata/user/{{building.committeeMembers[$index].user_id}}">{{building.committeeMembers[$index].name.fullName}}</a>
-                              </span>
-                              <a href="" class="input-group-addon nounderline" ng-click="deleteCommitteeMember()" ng-hide="!formEditMode" >
-                              Remove</a>
-                           </div>
-                        </div>
-                     </div>
-                     <button type="button" class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
-                  </div>
-                  </div>
-                  -->
-               <!-- Room Details -->
-               <uib-accordion >
-                  <div uib-accordion-group class="panel-default" heading="Room Details">
-                     <div class="col-md-12 ">
-                        <div class="form-group">
-                           <a class="btn btn-success" href="/aptmgmt/masterdata/building/{{building._id}}/rooms">Show Rooms</a>
-                        </div>
-                     </div>
-                  </div>
-               </uib-accordion>
-               <!-- Associated Emails -->                
-               <div class="form-group">
-                  <label for="associatedEmails">Associated Emails</label>
-                  <input type="text" class="form-control" id="associatedEmails" placeholder="Associated Emails" ng-model="building.associatedEmails" ng-disabled="!formEditMode">
-               </div>
-               <button type="submit" class="btn btn-primary" ng-hide="!formEditMode">Update</button>
-            </form>
-         </div>
-      </div>
-   </div>
+                    </uib-accordion>
+
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

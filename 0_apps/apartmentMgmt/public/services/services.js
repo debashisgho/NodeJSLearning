@@ -30,6 +30,12 @@ myApp.service('SessionService', function($http,$location,$rootScope) {
 
     this.runInitialSetUp = function(redirectIfNotLoggedInFlag, setUpRootScopeFlag){
 
+
+		//STOP AUTHENTICATION FOR DEVELOPMENT
+
+		redirectIfNotLoggedInFlag=false;
+
+
     	if(angular.isUndefined(redirectIfNotLoggedInFlag)|| redirectIfNotLoggedInFlag == null){
     		console.log("setting redirect flag to true");
     		redirectIfNotLoggedInFlag = true;
