@@ -96,6 +96,20 @@ getUserById = function(_id, callback){
 	User.find(searchOptions, selectionRange,callback);
 }
 
+// Get users by name with partial match
+
+getUsersByName = function(name, callback){
+
+	var nameRegEx = new RegExp(name, 'i');
+
+	console.log('user.js - get user by name  -name:'+name);
+	
+	var searchOptions = {$or:[{"name.first":nameRegEx},{"name.last":nameRegEx}]};
+	var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
+	User.find(searchOptions, selectionRange,callback);
+	
+
+}
 
 
 
@@ -110,6 +124,7 @@ addUser = function(user, callback){
 
 updateUser = function(emailId, user,callback){
 	var searchOptions = {"email":emailId};
+
 	User.findOneAndUpdate(searchOptions, user, callback);
 }
 
@@ -129,6 +144,7 @@ deleteBook = function(id, callback){
 User.getUsers = getUsers;
 User.getUserByEmail = getUserByEmail;
 User.getUserById = getUserById;
+User.getUsersByName = getUsersByName
 User.addUser = addUser;
 User.updateUser = updateUser;
 

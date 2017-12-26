@@ -118,6 +118,9 @@ $scope.building.committeeMembers = modCMembers;
 $scope.getMembersOfBuildingTest = function(name){
 
 	return $scope.buildingMembers;
+	//call API to get list of users
+
+	
 
 };
 

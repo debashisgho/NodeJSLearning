@@ -52,6 +52,7 @@ myApp.service('SessionService', function($http,$location,$rootScope) {
 		if(angular.isUndefined(user) || user==null){
 			console.log('/public/services/services.js -not logged in');
 			if(redirectIfNotLoggedInFlag){
+				console.log('going to redirect');
 				$location.url("/aptmgmt");	
 			}
 			

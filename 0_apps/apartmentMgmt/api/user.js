@@ -51,6 +51,29 @@ router.get('/aptmgmt/api/user/:_emailId',function(request, response){
 	
 });
 
+
+
+//get users by name with partial match
+
+router.get('/aptmgmt/api/users/name/:_name',function(request, response){
+	console.log('get user by name called for name:'+request.params._name);
+
+	
+	User.getUsersByName(request.params._name,function(err,users){
+
+		if(err){
+			console.log("app.js -getUsersByName encountered error");
+			response.json(err);
+			return;
+		}
+		console.log("app.js -getUserByName db call success");
+		console.log(users);
+		
+		//response.json(removeSensitiveData(users));
+		response.json(users);
+	});
+	
+});
 //insert user
 router.post('/aptmgmt/api/user',function(request, response){
 	console.log('insert user called');

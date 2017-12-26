@@ -8,6 +8,8 @@ myApp.controller('RoomDataController', ['$scope', '$http', '$location', '$routeP
 SessionService.runInitialSetUp();
 
 
+
+
 $scope.room ={};
 $scope.room.owner_details={};
 $scope.room.owner_details.current =[];
@@ -25,7 +27,7 @@ $scope.date = new Date();
 $scope.dateOptions = {
     dateDisabled: false,
     formatYear: 'yy',
-    maxDate: new Date(2050, 12, 12),
+    maxDate: new Date(2049, 12, 31),
     minDate: new Date(1900,1,1),
     startingDay: 1
   };
@@ -37,28 +39,34 @@ $scope.dateOptions = {
     return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
   }*/
 
-  $scope.open= function() {
-  	console.log("index of popup open -"+this.$index);
-    $scope.popup.opened = true;
-  };
+ 
+//control date pop up 
 
+$scope.popUpPrevOwnerFromDate =[];
+$scope.popUpPrevOwnerToDate =[];
+$scope.popUpCurrRentFromDate=[];
+$scope.popUpPrevRentFromDate=[];
+$scope.popUpPrevRentToDate=[];
 
-
-  $scope.popup = {
-    opened: false
-  };
-
-
-//control pop up currOwnerFromDate
-$scope.popUpCurrOwnerFromDate =[];
-
-//initial value of pop up
-$scope.popUpDefault ={
-	opened:false
+$scope.openPopUpPrevOwnerFromDate =function(){
+	$scope.popUpPrevOwnerFromDate[this.$index].opened = true;	
+	console.log($scope.popUpPrevOwnerFromDate);
 }
 
-$scope.openPopUpCurrOwnerFromDate =function(){
-	$scope.popUpCurrOwnerFromDate[this.$index].opened = true;
+$scope.openPopUpPrevOwnerToDate =function(){
+	$scope.popUpPrevOwnerToDate[this.$index].opened = true;	
+}
+
+$scope.openPopUpCurrRentFromDate =function(){
+	$scope.popUpCurrRentFromDate[this.$index].opened = true;	
+}
+
+$scope.openPopUpPrevRentFromDate =function(){
+	$scope.popUpPrevRentFromDate[this.$index].opened = true;	
+}
+
+$scope.openPopUpPrevRentToDate =function(){
+	$scope.popUpPrevRentToDate[this.$index].opened = true;	
 }
 
 
@@ -71,6 +79,18 @@ $scope.measurementAreaUnit= "Sq.ft.";
 $scope.selectedTower = null;
  //$scope.buildingName = $rootScope.building.name;
  //console.log($rootScope);
+
+$scope.building =null;
+//get details of the building
+ $scope.getBuildingById = function(){
+		
+		$http.get('/aptmgmt/api/masterdata/building/'+$scope._buildingId).then(function(response){			
+			
+			var building = response.data;
+			console.log(building);
+			$scope.building = building;
+		});
+	};
 
 //get list of towers -/aptmgmt/api/masterdata/building/:_buildingId/towers
 
@@ -97,28 +117,35 @@ $scope.getTowersByBuildingId= function(){
 
 $scope.addCurrentOwner= function(){
 		console.log("add currentOwner called");
-		$scope.popUpCurrOwnerFromDate.push($scope.popUpDefault);
+		
 		$scope.room.owner_details.current.push("");
 	};
 
 $scope.deleteCurrentOwner= function(){
 		console.log("delete current Owner called");
+		
 		$scope.room.owner_details.current.splice(this.$index,1);
 	};
 
 $scope.addPreviousOwner= function(){
 		console.log("add PreviousOwner called");
+		$scope.popUpPrevOwnerFromDate.push({opened:false});
+		$scope.popUpPrevOwnerToDate.push({opened:false});
 		$scope.room.owner_details.previous.push("");
+		//console.log($scope.room);
 	};
 
 $scope.deletePreviousOwner= function(){
 		console.log("delete Previous Owner called");
+		$scope.popUpPrevOwnerFromDate.splice(this.$index,1);
+		$scope.popUpPrevOwnerToDate.splice(this.$index,1);
 		$scope.room.owner_details.previous.splice(this.$index,1);
 		
 	};
 
 $scope.addCurrentRent= function(){
 		console.log("add currentRent called");
+		$scope.popUpCurrRentFromDate.push({opened:false});
 		$scope.room.rent_details.current.push("");
 	};
 
@@ -129,6 +156,8 @@ $scope.deleteCurrentRent= function(){
 
 $scope.addPreviousRent= function(){
 		console.log("add PreviousRent called");
+		$scope.popUpPrevRentFromDate.push({opened:false});
+		$scope.popUpPrevRentToDate.push({opened:false});
 		$scope.room.rent_details.previous.push("");
 	};
 

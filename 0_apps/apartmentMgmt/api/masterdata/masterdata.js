@@ -16,11 +16,21 @@ MasterData = require('../../models/masterdata');
 	}
 }*/
 
+/*router.all('/aptmgmt/api/masterdata/*',function(req,res,next){
+	console.log('inside router all');
+	authMiddleware.checkAuth(req,res,next);
+	console.log('going out of checkAuth()');
+	next();   
+});
+*/
+
 //get masterdata categories
 router.get('/aptmgmt/api/masterdata/categories', authMiddleware.checkAuth, function(request, response){
 	MasterData.getCategories(function(err,categories){
+		console.log('starting get categories');
+		console.log(categories);
 		if(err){
-			response.json(err);
+			response.json(err);	
 			return;
 		}		
 		response.json(categories);

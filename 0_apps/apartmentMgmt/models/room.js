@@ -23,8 +23,7 @@ var roomSchema = mongoose.Schema({
 	owner_details:{ 
 
 			current:[{				
-				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
-					  fromDate:{type:Date,required:true},
+				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
 			}],		
 
 			previous:[{
@@ -45,10 +44,10 @@ var roomSchema = mongoose.Schema({
 
 	rent_details:{ 
 
-			current:{				
+			current:[{				
 				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
-					  from:{type:Date,required:true},
-			},		
+				  	  fromDate:{type:Date,required:true}
+			}],		
 
 			previous:[{
 					  id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
