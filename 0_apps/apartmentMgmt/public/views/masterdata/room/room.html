@@ -26,7 +26,7 @@
 
    
 
-  <select name="towerOptions" id="towerOptions" ng-model="selectedTower" class="form-control">
+  <select name="towerOptions" id="towerOptions" ng-model="selectedTowerId" class="form-control">
       <option ng-repeat="tower in towers" value="{{tower._id}}">{{tower.name}}</option>
     </select>
 
@@ -35,18 +35,20 @@
     <table class="table table-bordered table-hover">
       <thead>
         <tr class="active">
-          <th>Number</th>
+          <th>No.</th>
           <th>Floor</th>
           <th>Area</th>
+          <th>Tower</th>
           <th>Owners</th>
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="room in rooms">
-          <td><a href="/aptmgmt/masterdata/building/{{room._id}}">{{room.roomNo}}</a></td>
+          <td><a href="/aptmgmt/masterdata/building/rooms/{{room._id}}">{{room.roomNo}}</a></td>
           <td>{{room.floorNo}}</td>
           <td>{{room.area_details.area}} {{room.area_details.measurementUnit}}</td>
-          <td>{{room.owner_details.current[0].name.last}},{{room.owner_details.current[0].name.first}}</a></td>
+          <td>{{selectedTowerName}}</td>
+          <td>{{room.owner_details.current[0].name.last}} {{room.owner_details.current[0].name.first}}</a></td>
 
       </tbody>
     </table>

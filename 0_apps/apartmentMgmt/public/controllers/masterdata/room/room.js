@@ -76,14 +76,15 @@ $scope.openPopUpPrevRentToDate =function(){
 //get the building id from the url
 $scope._buildingId = $routeParams._buildingId;
 $scope.measurementAreaUnit= "Sq.ft.";
-$scope.selectedTower = null;
+$scope.selectedTowerId = null;
+$scope.selectedTowerName =null;
  //$scope.buildingName = $rootScope.building.name;
  //console.log($rootScope);
 
 $scope.building =null;
 //get details of the building
  $scope.getBuildingById = function(){
-		
+		console.log('getBuildingById called');
 		$http.get('/aptmgmt/api/masterdata/building/'+$scope._buildingId).then(function(response){			
 			
 			var building = response.data;
@@ -101,19 +102,37 @@ $scope.getTowersByBuildingId= function(){
 			console.log(response.data);
 			$scope.towers = response.data;
 			if($scope.towers.length ==1){
-				console.log("tower size is 1");
+				console.log('tower size is 1');
 				//$scope.selectedTower = $scope.towers[0]._id;
 				
 			}
-			else{
+			/*else{
 				var selectAllOption = {"_id":"","name":"--All Towers--"}; 
 				$scope.towers.unshift(selectAllOption);
-			}
+			}*/
 
-			$scope.selectedTower = $scope.towers[0]._id;
+			//$scope.selectedTower = $scope.towers[0]._id;
+			$scope.selectedTowerId = $scope.towers[0]._id;
 		});
 
 }
+
+$scope.$watch('selectedTowerId',function(){
+	console.log('variable watcher called');
+	console.log('selected tower id is :'+$scope.selectedTowerId);
+	if($scope.selectedTowerId != null){
+		for (var i = 0; i < $scope.towers.length ; i++) {
+			//console.log($scope.towers[i]._id +'-'+$scope.towers[i].name);
+			if($scope.towers[i]._id == $scope.selectedTowerId){				
+				$scope.selectedTowerName =$scope.towers[i].name;
+				break;
+
+			}
+		}
+		$scope.getRoomsByTower();
+	}
+	
+});
 
 $scope.addCurrentOwner= function(){
 		console.log("add currentOwner called");
@@ -176,5 +195,42 @@ $scope.deleteOthersLiving= function(){
 		$scope.room.others.othersLiving.splice(this.$index,1);
 		
 	};
+
+$scope.addRoom= function(){
+	console.log("add room function called");
+	$scope.roomAdd.$setPristine();//the form is submitted, so reset to pristine
+
+	$scope.room.building = $scope._buildingId;
+	$scope.room.tower = $scope.selectedTowerId;
+	$scope.room.area_details.measurementUnit = $scope.measurementAreaUnit;
+	console.log($scope.room);
+
+
+	$http.post('/aptmgmt/api/masterdata/building/tower/room', $scope.room).then(function(response){
+			console.log(response);
+			console.log('-------'+response.data.status+" : "+response.data.message);
+			var statusCode = "F";
+			
+			if(response.data.status < 400)
+			{
+				statusCode= "S";
+			}
+
+			$scope.response = {
+				"status":statusCode,
+				"message":response.data.message
+			};
+			
+		});
+};
+
+$scope.getRoomsByTower=function(){
+	console.log('getRoomsByTower called for '+$scope.selectedTowerId);
+	$http.get('/aptmgmt/api/masterdata/building/tower/'+$scope.selectedTowerId+'/rooms').then(function(response){
+		console.log(response);
+		$scope.rooms = response.data;
+
+	});
+};
   
 }]);

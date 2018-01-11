@@ -5,6 +5,7 @@ Building = require('../../models/building');
 User = require('../../models/user');
 
 
+
 //insert building
 router.post('/aptmgmt/api/masterdata/building',function(request, response){
 	console.log('insert building called');

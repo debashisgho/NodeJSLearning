@@ -62,9 +62,41 @@ var roomSchema = mongoose.Schema({
 		type:Date, default: Date.now
 	}
 
-});
+},
+{collection: 'rooms'});
 
+//create a unique index based on buildingId, tower and floor No and building
+roomSchema.index({building:1, tower:1,roomNo:1},{unique: true});
+
+/*roomSchema.pre('validate', function (next) {
+  console.log('pre validate method of room----');
+  console.log(this);
+  if(this.roomNo == null){
+  	// next(new Error('hashed_pwd should not be empty'));
+  	console.log('Room data is not okay');  	
+    return;
+  }
+  next();
+});*/
 
 var Room = mongoose.model('Room',roomSchema);
 
+
+//Add Room
+addRoom = function(room, callback){
+	console.log(room);
+	Room.create(room, callback);
+};
+
+getRoomsByTowerId= function(towerId,callback){
+	console.log("getRoomsByTowewrId called for towerid ="+towerId);
+	var searchOptions = {"tower":towerId};
+	//var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
+	var selectionRange = {__v:0};
+	//console.log(searchOptions);
+	Room.find(searchOptions, selectionRange,callback);
+};
+
+Room.addRoom =addRoom;
+Room.getRoomsByTowerId =getRoomsByTowerId;
 module.exports = Room ;

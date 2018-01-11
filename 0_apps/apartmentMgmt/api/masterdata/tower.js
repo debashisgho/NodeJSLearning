@@ -5,7 +5,7 @@ Tower = require('../../models/tower');
 
 
 //insert tower
-router.post('/aptmgmt/api/masterdata/tower',function(request, response){
+router.post('/aptmgmt/api/masterdata/building/tower',function(request, response){
 	console.log('insert tower called');
 	var tower = request.body;	
 	console.log("print tower objects");
