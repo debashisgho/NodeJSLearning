@@ -107,11 +107,8 @@ getUsersByName = function(name, callback){
 	var searchOptions = {$or:[{"name.first":nameRegEx},{"name.last":nameRegEx}]};
 	var selectionRange = {hashed_pwd:0,hashed_pwd_time:0,temp_pwd:0,temp_pwd_time:0,create_date:0,__v:0};
 	User.find(searchOptions, selectionRange,callback);
-	
 
 }
-
-
 
 //Add User
 addUser = function(user, callback){

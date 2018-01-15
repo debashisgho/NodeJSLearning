@@ -1,53 +1,51 @@
 
 /*sample JSON
 
-{
+{  
+   "_id":ObjectId("5916de46c9476927a4c7629e"),
+   "name":"Rittika Apartment",
+   "create_date":   ISODate("2017-05-13T10:21:58.467   Z"),   
+   "associatedEmails":[  
+      "debashisgho@gmail.com, guha.swagata2@gmail.com"
+   ],
+   "address":{  
+      "landmark":"near 217-B Bus Stand",
+      "country":"India",
+      "state":"West Bengal",
+      "district":"South 24 pgs",
+      "city_vill":"Kolkata",
+      "postOffice":"R-Gopalpur",
+      "pin":"700136",
+      "address3":"Kalipark",
+      "address2":"Bablatala",
+      "address1":"Sourav Ganguly Avenue"
+   },
+   "details":{  
+      "towers":[  
+         {  
+            "_id":ObjectId("5916de46c9476927a4c7629f"),
+            "name":"tower-A",
+            "floors":[  
+               {  
+                  "_id":ObjectId("5916de46c9476927a4c762a0"),
+                  "num":"5",
+                  "rooms":[  
 
-	"name":"Rittika Apartment",
-  	"contact":
-  		{
-  			"email":"rittikaApt@gmail.com",
-  			"phone":["91-9903887868","91-8585085845","91-8583070701"]
-  		},
-
-	"details":{
-		"type":"Stand-Alone",
-		"towers":[{
-			"name":"tower-A",
-			"floors":[{
-				"num":"5"
-			}]
-		}]
-	},	
-		
-	"address":
-		{
-			"address1":"Sourav Ganguly Avenue",
-			"address2":"Bablatala",
-			"address3":"Kalipark",
-			"pin":"700136",
-			"postOffice":"R-Gopalpur",
-			"city_vill":"Kolkata",
-			"district":"South 24 pgs",
-			"state":"West Bengal",
-			"country":"India",
-			"landmark":"near 217-B Bus Stand"
-		},	
-
-	"associatedEmails":[
-			"debashisgho@gmail.com, pallabi_1988@gmail.com"
-		],
-	"committeeMembers":[
-		{
-			"designation":"member",
-			"user_id":"58fced9a66928924e8db4501"
-		},
-		{
-			"designation":"member",
-			"user_id":"58fed3da01183c1b38063d0b"
-		}
-	]
-
+                  ]
+               }
+            ]
+         }
+      ],
+      "type":"Stand-Alone"
+   },
+   "contact":{  
+      "phone":[  
+         "91-9903887868",
+         "91-8585085845",
+         "91-8583070701"
+      ],
+      "email":"rittikaApt@gmail.com"
+   }
 }
 */
 

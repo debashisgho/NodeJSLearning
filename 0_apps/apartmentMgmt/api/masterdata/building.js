@@ -77,12 +77,17 @@ router.get('/aptmgmt/api/masterdata/building/:_id',function(request, response){
 
 
 		console.log(buildingJSObj.committeeMembers);
-		for(var member of buildingJSObj.committeeMembers){
-			
-			var index=0;			
-			
+		
 
-			User.getUserById(member.user_id,function(err,user){
+		if(buildingJSObj.committeeMembers.length >0){
+			console.log("exist");
+			for(var member of buildingJSObj.committeeMembers){
+			
+			var index=0;
+
+			if(member.user_id){
+
+					User.getUserById(member.user_id,function(err,user){
 
 					if(err){
 						console.log("app.js -getUserByEmail encountered error");
@@ -90,19 +95,33 @@ router.get('/aptmgmt/api/masterdata/building/:_id',function(request, response){
 						return;
 					}			
 					
-					buildingJSObj.committeeMembers[index].name=user[0].toObject().name; ;
+					buildingJSObj.committeeMembers[index].name=user[0].toObject().name;
+					console.log("got name");
 					index=index+1;
 					
 
 					if(buildingJSObj.committeeMembers.length == index){
-						//console.log("It is time to send response");
+						console.log("going to send response");
 						
 						response.json(buildingJSObj);
 					}
 								
 					 
 			});
-		};		
+
+			}			
+		};
+
+		}
+
+		else{
+			console.log("going to send response");
+			response.json(buildingJSObj);
+		}
+		
+		
+		
+				
 		
 	});
 	

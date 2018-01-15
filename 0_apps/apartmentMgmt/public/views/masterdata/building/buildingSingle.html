@@ -1,4 +1,3 @@
-
 <div ng-show="!buildingInfo.$dirty"
    ng-class="{'bg-danger': response.status == 'F' , 'bg-success': response.status == 'S'} ">
    {{response.status}} {{response.message}}
@@ -25,14 +24,11 @@
                   <label for="email">Email</label>
                   <input type="text" class="form-control" id="email" placeholder="Email ID" ng-model="building.contact.email" ng-disabled="!formEditMode">
                </div>
-  
-
                <!-- phone Num section -->
                <!-- this next div is designed for ui.bootstrap-->
-                 
- <uib-accordion >
-    <div uib-accordion-group class="panel-default" heading="Phone Numbers">
-           <div class="row">
+               <uib-accordion >
+                  <div uib-accordion-group class="panel-default" heading="Phone Numbers">
+                     <div class="row">
                         <div class="col-md-12 ">
                            <div class="form-group" ng-repeat="phone in building.contact.phone track by $index">
                               <div class="input-group">
@@ -41,16 +37,12 @@
                                  Remove</a>
                               </div>
                            </div>
-                  
-                     </div>
+                        </div>
                      </div>
                      <button type="button" class="btn btn-info" ng-click="addAnotherPhone()" ng-hide="!formEditMode">Add another</button>
-              
-    </div>
- </uib-accordion>
-
+                  </div>
+               </uib-accordion>
                <!-- it is designed with bootstrap.js -->
-               
                <!--  <div class="panel panel-default">
                   <div class="panel-heading" data-toggle="collapse" data-target="#phoneNumBody">
                      <a href="" class="nounderline">
@@ -74,13 +66,10 @@
                   </div>
                   </div> -->
                <!-- Address section -->
-
                <!-- designed with ui.bootstrap -->
-
- <uib-accordion >
-    <div uib-accordion-group class="panel-default" heading="Address">
-
-    <div class="col-md-12 ">
+               <uib-accordion >
+                  <div uib-accordion-group class="panel-default" heading="Address">
+                     <div class="col-md-12 ">
                         <div class="form-group">
                            <label for="address1">Address1</label>
                            <input type="text" class="form-control" id="address1" placeholder="Address Line1" ng-model="building.address.address1" ng-disabled="!formEditMode">
@@ -122,12 +111,10 @@
                            <input type="text" class="form-control" id="landmark" placeholder="Landmark" ng-model="building.address.landmark" ng-disabled="!formEditMode">
                         </div>
                      </div>
-    </div>
-           
- </uib-accordion>
-
- <!-- desinged with bootstrap.js -->
-              <!--  <div class="panel panel-default">
+                  </div>
+               </uib-accordion>
+               <!-- desinged with bootstrap.js -->
+               <!--  <div class="panel panel-default">
                   <div class="panel-heading" data-toggle="collapse" data-target="#addressBody">
                      <a href="" class="nounderline">
                         <h4 class="panel-title">Address</h4>
@@ -177,32 +164,20 @@
                         </div>
                      </div>
                   </div>
-               </div> -->
-
-
-
+                  </div> -->
                <!-- Committee members section -->
-
                <!-- designed with ui.bootstrap -->
-
-
                <!-- the below is almost working with a copy of the building.committeeMembers-->
-
-
- 
- <uib-accordion >
-    <div uib-accordion-group class="panel-default" heading="Committee Members">
-           <div class="col-md-12 ">
+               <uib-accordion >
+                  <div uib-accordion-group class="panel-default" heading="Committee Members">
+                     <div class="col-md-12 ">
                         <div class="form-group" ng-repeat="cMember in building.committeeMembers track by $index">
                            <div class="input-group">
                               <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
                               <span class="input-group-btn"  style="width:0px;"></span>
-
-                                  <input type="text" ng-model="building.committeeMembers[$index].name.fullName" placeholder="Committee member" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuildingTest($viewValue)| filter:$viewValue | limitTo:8" typeahead-loading="loadingMembers" 
-                                  typeahead-no-results="noResults" class="form-control" ng-disabled="!formEditMode" ng-hide="!formEditMode">
-                                  <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-  
-
+                              <input type="text" ng-model="building.committeeMembers[$index].userDetails" placeholder="Committee member" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuildingTest($viewValue)| limitTo:8" typeahead-loading="loadingMembers" 
+                                 typeahead-no-results="noResults" class="form-control" ng-disabled="!formEditMode" ng-hide="!formEditMode">
+                              <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                               <span  ng-hide="formEditMode"  class="form-control">
                               <a href="/aptmgmt/masterdata/user/{{building.committeeMembers[$index].user_id}}">{{building.committeeMembers[$index].name.last}},{{building.committeeMembers[$index].name.first}}</a>
                               </span>
@@ -210,17 +185,12 @@
                               Remove</a>
                            </div>
                         </div>
-            </div>
+                     </div>
                      <button type="button" class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
-              
-    </div>
- </uib-accordion>
-
-
-
+                  </div>
+               </uib-accordion>
                <!-- designed with bootstrap.js -->
-
-              <!--  <div class="panel panel-default">
+               <!--  <div class="panel panel-default">
                   <div class="panel-heading" data-toggle="collapse" data-target="#committeeMembers">
                      <a href="" class="nounderline">
                         <h4 class="panel-title">Committee Members</h4>
@@ -243,26 +213,19 @@
                      </div>
                      <button type="button" class="btn btn-info" ng-click="addCommitteeMember()" ng-hide="!formEditMode" >Add another</button>
                   </div>
-               </div>
- -->
-
- <!-- Room Details -->
-
-
-<uib-accordion >
-    <div uib-accordion-group class="panel-default" heading="Room Details">
-       <div class="col-md-12 ">
-            <div class="form-group">
-               
-               <a class="btn btn-success" href="/aptmgmt/masterdata/building/{{building._id}}/rooms">Show Rooms</a>
-            </div>    
-
-      </div>
-    </div>           
-</uib-accordion>
-
-
-<!-- Associated Emails -->                
+                  </div>
+                  -->
+               <!-- Room Details -->
+               <uib-accordion >
+                  <div uib-accordion-group class="panel-default" heading="Room Details">
+                     <div class="col-md-12 ">
+                        <div class="form-group">
+                           <a class="btn btn-success" href="/aptmgmt/masterdata/building/{{building._id}}/rooms">Show Rooms</a>
+                        </div>
+                     </div>
+                  </div>
+               </uib-accordion>
+               <!-- Associated Emails -->                
                <div class="form-group">
                   <label for="associatedEmails">Associated Emails</label>
                   <input type="text" class="form-control" id="associatedEmails" placeholder="Associated Emails" ng-model="building.associatedEmails" ng-disabled="!formEditMode">

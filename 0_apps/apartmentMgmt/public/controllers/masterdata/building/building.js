@@ -2,7 +2,7 @@ var myApp = angular.module('myApp');
 
 //var myApp = angular.module('myApp',['ngMaterial']);
 
-myApp.controller('buildingDataController', ['$scope','$rootScope', '$http', '$location', '$routeParams','SessionService', function($scope,$rootScope, $http, $location, $routeParams,SessionService){
+myApp.controller('buildingDataController', ['$scope','$rootScope', '$http', '$location', '$routeParams','$q','SessionService', function($scope,$rootScope, $http, $location, $routeParams, $q,SessionService){
 	console.log('BuildingDataController loaded...');
 
 SessionService.runInitialSetUp();
@@ -39,7 +39,9 @@ $scope.formEditButtonText = "Edit";
 ];
 
 */
-$scope.buildingMembers=[
+
+//Below is a hardcoded response to check whether typeahead is working or not
+/*$scope.buildingMembers=[
 
 {	
 	name:{
@@ -67,7 +69,7 @@ $scope.buildingMembers=[
 	user_id:"58fced9a66928924e8db4503"
 }
 
-];
+];*/
 
 
 /*
@@ -89,22 +91,21 @@ $scope.reStructureCommitteeMembers = function(){
 	
 	for(var i=0; i<cMembers.length;i++){
 		tempCMember={};
-		tempCMember.name={};
-		//console.log(cMembers[i]);
+		//tempCMember.name={};
 		
 		tempCMember.designation = cMembers[i].designation;
-		if(angular.isDefined(cMembers[i].name.fullName.name)){ //this member was modified
+		if(angular.isDefined(cMembers[i].userDetails)){ //this member was modified
 			//console.log("defined");
-			tempCMember.name.first= cMembers[i].name.fullName.name.first;
-			tempCMember.name.last= cMembers[i].name.fullName.name.last;
-			tempCMember.user_id= cMembers[i].name.fullName.user_id;
+			//tempCMember.name.first= cMembers[i].name.fullName.name.first;
+			//tempCMember.name.last= cMembers[i].name.fullName.name.last;
+			tempCMember.user_id= cMembers[i].userDetails._id;
 		}
 
 		else{
 			//console.log("not defined");
-			tempCMember.name.first= cMembers[i].name.first;
-			tempCMember.name.last= cMembers[i].name.last;
-			tempCMember.user_id= cMembers[i].user_id;
+			//tempCMember.name.first= cMembers[i].name.first;
+			//tempCMember.name.last= cMembers[i].name.last;
+			//tempCMember.user_id= cMembers[i].user_id;
 		}
 
 		modCMembers.push(tempCMember);
@@ -115,15 +116,71 @@ $scope.building.committeeMembers = modCMembers;
 
 };
 
-$scope.getMembersOfBuildingTest = function(name){
-
-	return $scope.buildingMembers;
-	//call API to get list of users
-
-	
+$scope.getMembersOfBuildingTest = function(name){	
+return $http.get('/aptmgmt/api/users/name/'+name).then(function(response){
+	console.log(response.data);
+	return response.data;
+})
 
 };
 
+
+$scope.getMembersOfBuildingTest2 = function(name) {
+
+    
+    var url = '/aptmgmt/api/users/name/'+name;
+    
+    return $http({
+      method: 'GET',
+      url: url
+    }).then(function successCallback(response) {
+     // console.clear();
+     console.log(response.data);
+     $scope.buildingMembers = response.data;
+     
+      return response.data.map(function(member) {
+        console.log(member);
+        return member;
+      });
+      //return response.data;
+    }, function errorCallback(response) {
+      console.log(response);
+    });
+    console.log('function is over');
+  }
+
+  $scope.getMembersOfBuildingTest1 = function(name) {
+
+    
+    var url = '/aptmgmt/api/users/name/'+name;
+    
+    return $http({
+      method: 'GET',
+      url: url
+    }).then(function successCallback(response) {
+     // console.clear();
+     console.log(response.data);
+     $scope.buildingMembers = response.data;
+     
+     return response.data;
+     /* return response.data.map(function(member) {
+        console.log(member);
+        return member;
+      });*/
+      //return response.data;
+    }, function errorCallback(response) {
+      console.log(response);
+    });
+    console.log('function is over');
+  }
+  
+  
+
+
+$scope.getMembersOfBuildingInternal = function(name){
+	console.log('start - internal');
+	return  $http.get('/aptmgmt/api/masterdata/users/name/'+name);
+}
 
 $scope.getUsersByBuildingId= function(){
 
@@ -181,7 +238,7 @@ $scope.getBuildingById = function(){
 			
 			for(var i=0; i<building.committeeMembers.length;i++){
 
-				building.committeeMembers[i].name.fullName=building.committeeMembers[i].name.last+","+building.committeeMembers[i].name.first;
+				//building.committeeMembers[i].name.fullName=building.committeeMembers[i].name.last+","+building.committeeMembers[i].name.first;
 			}
 			$scope.building = building;
 			//$scope.selectedCommitteeMembers = angular.copy($scope.building.committeeMembers);
@@ -192,13 +249,13 @@ $scope.getBuildingById = function(){
 $scope.updateBuilding = function(){
 		
 		$scope.buildingInfo.$setPristine();//the form is submitted, so reset to pristine
-		console.log("controller updateProfile started");
+		console.log("controller updateBuilding started");
 		
 		//modify the extra data from building that is not expected by backend. 
 		/*for(var i=0; i<$scope.building.committeeMembers.length; i++){			
 			delete $scope.building.committeeMembers[i].name.fullName;
 		}*/
-
+		//console.log($scope.building);
 		this.reStructureCommitteeMembers();//it is done to send committeeMembers structures properly to backend
 		console.log($scope.building);
 		$http.put('/aptmgmt/api/masterdata/building/'+$scope.building._id, $scope.building).then(function(response){
