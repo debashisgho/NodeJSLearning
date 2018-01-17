@@ -232,5 +232,14 @@ $scope.getRoomsByTower=function(){
 
 	});
 };
+
+$scope.getRoomById = function(){
+	console.log('getRoomById() called for room Id:'+$routeParams._roomId);
+	$http.get('/aptmgmt/api/masterdata/building/tower/room/'+$routeParams._roomId).then(function(response){
+		console.log(response.data);
+		$scope.room = response.data[0];
+		console.log($scope.room.roomNo);
+	});
+};
   
 }]);

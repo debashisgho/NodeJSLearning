@@ -2,7 +2,7 @@ var myApp = angular.module('myApp');
 
 //var myApp = angular.module('myApp',['ngMaterial']);
 
-myApp.controller('buildingDataController', ['$scope','$rootScope', '$http', '$location', '$routeParams','$q','SessionService', function($scope,$rootScope, $http, $location, $routeParams, $q,SessionService){
+myApp.controller('buildingDataController', ['$scope','$rootScope', '$http', '$location', '$routeParams','SessionService', function($scope,$rootScope, $http, $location, $routeParams,SessionService){
 	console.log('BuildingDataController loaded...');
 
 SessionService.runInitialSetUp();
@@ -125,58 +125,6 @@ return $http.get('/aptmgmt/api/users/name/'+name).then(function(response){
 };
 
 
-$scope.getMembersOfBuildingTest2 = function(name) {
-
-    
-    var url = '/aptmgmt/api/users/name/'+name;
-    
-    return $http({
-      method: 'GET',
-      url: url
-    }).then(function successCallback(response) {
-     // console.clear();
-     console.log(response.data);
-     $scope.buildingMembers = response.data;
-     
-      return response.data.map(function(member) {
-        console.log(member);
-        return member;
-      });
-      //return response.data;
-    }, function errorCallback(response) {
-      console.log(response);
-    });
-    console.log('function is over');
-  }
-
-  $scope.getMembersOfBuildingTest1 = function(name) {
-
-    
-    var url = '/aptmgmt/api/users/name/'+name;
-    
-    return $http({
-      method: 'GET',
-      url: url
-    }).then(function successCallback(response) {
-     // console.clear();
-     console.log(response.data);
-     $scope.buildingMembers = response.data;
-     
-     return response.data;
-     /* return response.data.map(function(member) {
-        console.log(member);
-        return member;
-      });*/
-      //return response.data;
-    }, function errorCallback(response) {
-      console.log(response);
-    });
-    console.log('function is over');
-  }
-  
-  
-
-
 $scope.getMembersOfBuildingInternal = function(name){
 	console.log('start - internal');
 	return  $http.get('/aptmgmt/api/masterdata/users/name/'+name);
@@ -198,7 +146,15 @@ $scope.editForm = function(){
 	if($scope.formEditMode == false){
 		//committee members may be edited - copy the original committee members to the selected value so that they can 
 		//be displayed in the typeahead dropdown
-		//$scope.selectedCommitteeMembers = $scope.building.committeeMembers;
+		for (var i =0; i<$scope.building.committeeMembers.length; i++) {
+
+			$scope.building.committeeMembers[i].userDetails={};
+			
+			$scope.building.committeeMembers[i].userDetails._id = $scope.building.committeeMembers[i].user_id;
+			$scope.building.committeeMembers[i].userDetails.name =$scope.building.committeeMembers[i].name;
+
+		}
+		//console.log($scope.building.committeeMembers);
 
 		//console.log("----");
 		//console.log($scope.selectedCommitteeMembers);
@@ -209,8 +165,17 @@ $scope.editForm = function(){
 	}
 
 	if($scope.formEditMode == true){
-		console.log($scope.selectedCommitteeMembers);
-		console.log("nullify");
+
+		for (var i =0; i<$scope.building.committeeMembers.length; i++) {
+
+			
+			
+			delete $scope.building.committeeMembers[i].userDetails;
+
+		}
+
+		console.log($scope.building.committeeMembers);
+		//console.log("nullify");
 		//$scope.selectedCommitteeMembers =null;
 		//console.log($scope.selectedCommitteeMembers);
 		$scope.getBuildingById(); //refresh the $scope building data to ensure changes during edit are lost
@@ -255,7 +220,7 @@ $scope.updateBuilding = function(){
 		/*for(var i=0; i<$scope.building.committeeMembers.length; i++){			
 			delete $scope.building.committeeMembers[i].name.fullName;
 		}*/
-		//console.log($scope.building);
+		console.log($scope.building);
 		this.reStructureCommitteeMembers();//it is done to send committeeMembers structures properly to backend
 		console.log($scope.building);
 		$http.put('/aptmgmt/api/masterdata/building/'+$scope.building._id, $scope.building).then(function(response){

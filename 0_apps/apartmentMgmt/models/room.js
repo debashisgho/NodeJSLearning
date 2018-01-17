@@ -97,6 +97,14 @@ getRoomsByTowerId= function(towerId,callback){
 	Room.find(searchOptions, selectionRange,callback);
 };
 
+getRoomById = function(roomId,callback){
+	console.log("getRoomById called for roomId :"+roomId);
+	var searchOptions = {"_id":roomId};
+	var selectionRange = {__v:0};
+	Room.find(searchOptions, selectionRange,callback);
+}
+
 Room.addRoom =addRoom;
 Room.getRoomsByTowerId =getRoomsByTowerId;
+Room.getRoomById = getRoomById;
 module.exports = Room ;

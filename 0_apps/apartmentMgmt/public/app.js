@@ -41,13 +41,17 @@ myApp.config(function($routeProvider,$locationProvider){
 		controller:'MasterDataController',
 		templateUrl: '/views/user/user.html'
 	})
-	.when('/aptmgmt/masterdata/building/:_buildingId/rooms',{
+	.when('/aptmgmt/masterdata/building/:_buildingId/tower/rooms',{
 		controller:'RoomDataController',
 		templateUrl:'/views/masterdata/room/room.html'
 	})
-	.when('/aptmgmt/masterdata/building/:_buildingId/rooms/add',{
+	.when('/aptmgmt/masterdata/building/:_buildingId/tower/rooms/add',{
 		controller:'RoomDataController',
 		templateUrl:'/views/masterdata/room/roomAdd.html'
+	})
+	.when('/aptmgmt/masterdata/building/tower/room/:_roomId',{
+		controller:'RoomDataController',
+		templateUrl:'/views/masterdata/room/roomSingle.html'
 	})
 	.when('/aptmgmt/masterdata', {
 		controller:'MasterDataController',

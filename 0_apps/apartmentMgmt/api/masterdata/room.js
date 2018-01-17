@@ -32,6 +32,22 @@ router.post('/aptmgmt/api/masterdata/building/tower/room',function(request, resp
 });
 
 
+//get room by room id
+
+router.get('/aptmgmt/api/masterdata/building/tower/room/:_roomId',function(request, response){
+
+	console.log("/api/room.js -"+request.body);
+	var _roomId = request.params._roomId;
+	Room.getRoomById(_roomId,function(err,rooms){
+		
+		if(err){
+			response.json(err);
+			return;
+		}
+		response.json(rooms);
+	});
+});
+
 //get rooms by tower id
 router.get('/aptmgmt/api/masterdata/building/tower/:_towerId/rooms',function(request, response){
 
