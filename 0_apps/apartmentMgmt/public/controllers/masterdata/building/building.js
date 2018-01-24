@@ -116,7 +116,7 @@ $scope.building.committeeMembers = modCMembers;
 
 };
 
-$scope.getMembersOfBuildingTest = function(name){	
+$scope.getMembersOfBuilding = function(name){	
 return $http.get('/aptmgmt/api/users/name/'+name).then(function(response){
 	console.log(response.data);
 	return response.data;
@@ -125,10 +125,6 @@ return $http.get('/aptmgmt/api/users/name/'+name).then(function(response){
 };
 
 
-$scope.getMembersOfBuildingInternal = function(name){
-	console.log('start - internal');
-	return  $http.get('/aptmgmt/api/masterdata/users/name/'+name);
-}
 
 $scope.getUsersByBuildingId= function(){
 

@@ -6,7 +6,8 @@ myApp.controller('RoomDataController', ['$scope', '$http', '$location', '$routeP
 	console.log('roomDataController loaded...');
 
 SessionService.runInitialSetUp();
-
+$scope.formEditMode = false ; // during page load form will be on view mode.
+$scope.formEditButtonText = "Edit"; 
 
 
 
@@ -74,7 +75,10 @@ $scope.openPopUpPrevRentToDate =function(){
 
 
 //get the building id from the url
-$scope._buildingId = $routeParams._buildingId;
+$scope.buildingId = $routeParams._buildingId;
+console.log('buildingId set :'+$routeParams._buildingId);
+$scope.roomId = $routeParams._roomId;
+
 $scope.measurementAreaUnit= "Sq.ft.";
 $scope.selectedTowerId = null;
 $scope.selectedTowerName =null;
@@ -82,10 +86,12 @@ $scope.selectedTowerName =null;
  //console.log($rootScope);
 
 $scope.building =null;
+
+
 //get details of the building
  $scope.getBuildingById = function(){
-		console.log('getBuildingById called');
-		$http.get('/aptmgmt/api/masterdata/building/'+$scope._buildingId).then(function(response){			
+		console.log('getBuildingById called for :'+$scope.buildingId);
+		$http.get('/aptmgmt/api/masterdata/building/'+$scope.buildingId).then(function(response){			
 			
 			var building = response.data;
 			console.log(building);
@@ -93,12 +99,12 @@ $scope.building =null;
 		});
 	};
 
-//get list of towers -/aptmgmt/api/masterdata/building/:_buildingId/towers
+//get list of towers -/aptmgmt/api/masterdata/building/:buildingId/towers
 
 $scope.getTowersByBuildingId= function(){
 
-	console.log('getTowersByBuildingId called');
-		$http.get('/aptmgmt/api/masterdata/building/'+$scope._buildingId+'/towers').then(function(response){			
+	console.log('getTowersByBuildingId called for building Id :'+$scope.buildingId);
+		$http.get('/aptmgmt/api/masterdata/building/'+$scope.buildingId+'/towers').then(function(response){			
 			console.log(response.data);
 			$scope.towers = response.data;
 			if($scope.towers.length ==1){
@@ -112,17 +118,25 @@ $scope.getTowersByBuildingId= function(){
 			}*/
 
 			//$scope.selectedTower = $scope.towers[0]._id;
-			$scope.selectedTowerId = $scope.towers[0]._id;
+			if($scope.buildingId){
+				$scope.selectedTowerId = $scope.towers[0]._id;
+			}
 		});
 
 }
+
+
+
+
+
+
 
 $scope.$watch('selectedTowerId',function(){
 	console.log('variable watcher called');
 	console.log('selected tower id is :'+$scope.selectedTowerId);
 	if($scope.selectedTowerId != null){
 		for (var i = 0; i < $scope.towers.length ; i++) {
-			//console.log($scope.towers[i]._id +'-'+$scope.towers[i].name);
+			console.log($scope.towers[i]._id +'-'+$scope.towers[i].name);
 			if($scope.towers[i]._id == $scope.selectedTowerId){				
 				$scope.selectedTowerName =$scope.towers[i].name;
 				break;
@@ -200,7 +214,7 @@ $scope.addRoom= function(){
 	console.log("add room function called");
 	$scope.roomAdd.$setPristine();//the form is submitted, so reset to pristine
 
-	$scope.room.building = $scope._buildingId;
+	$scope.room.building = $scope.buildingId;
 	$scope.room.tower = $scope.selectedTowerId;
 	$scope.room.area_details.measurementUnit = $scope.measurementAreaUnit;
 	console.log($scope.room);
@@ -234,12 +248,43 @@ $scope.getRoomsByTower=function(){
 };
 
 $scope.getRoomById = function(){
-	console.log('getRoomById() called for room Id:'+$routeParams._roomId);
-	$http.get('/aptmgmt/api/masterdata/building/tower/room/'+$routeParams._roomId).then(function(response){
+	console.log('getRoomById() called for room Id:'+$scope.roomId);
+	$http.get('/aptmgmt/api/masterdata/building/tower/room/'+$scope.roomId).then(function(response){
 		console.log(response.data);
 		$scope.room = response.data[0];
-		console.log($scope.room.roomNo);
+		
+		$scope.buildingId = $scope.room.building;
+		$scope.getTowersByBuildingId();
+
+		//$scope.selectedTowerId = $scope.room.tower;
+
+
+		console.log($scope.room);
 	});
 };
-  
+
+$scope.editForm = function(){
+	
+	if($scope.formEditMode == false){
+		$scope.formEditButtonText = "Cancel Edit";
+		$scope.formEditMode = true;
+		return;
+	}
+
+	if($scope.formEditMode == true){
+
+		$scope.formEditButtonText = "Edit";
+		$scope.formEditMode = false;
+		return;
+	}
+};
+
+
+$scope.getMembersOfBuilding = function(name){	
+return $http.get('/aptmgmt/api/users/name/'+name).then(function(response){
+	console.log(response.data);
+	return response.data;
+})};
+
+
 }]);

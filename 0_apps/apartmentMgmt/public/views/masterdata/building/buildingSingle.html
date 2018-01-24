@@ -175,7 +175,7 @@
                            <div class="input-group">
                               <input type="text" ng-model="building.committeeMembers[$index].designation" class="form-control" placeholder="Designation" ng-disabled="!formEditMode">
                               <span class="input-group-btn"  style="width:0px;"></span>
-                              <input type="text" ng-model="building.committeeMembers[$index].userDetails" placeholder="Committee member" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuildingTest($viewValue)| limitTo:8" typeahead-loading="loadingMembers" 
+                              <input type="text" ng-model="building.committeeMembers[$index].userDetails" placeholder="Committee member" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuilding($viewValue)| limitTo:8" typeahead-loading="loadingMembers" 
                                  typeahead-no-results="noResults" class="form-control" ng-disabled="!formEditMode" ng-hide="!formEditMode">
                               <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                               <span  ng-hide="formEditMode"  class="form-control">
