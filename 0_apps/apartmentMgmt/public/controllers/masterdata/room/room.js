@@ -251,7 +251,7 @@ $scope.getRoomById = function(){
 	console.log('getRoomById() called for room Id:'+$scope.roomId);
 	$http.get('/aptmgmt/api/masterdata/building/tower/room/'+$scope.roomId).then(function(response){
 		console.log(response.data);
-		$scope.room = response.data[0];
+		$scope.room = response.data;
 		
 		$scope.buildingId = $scope.room.building;
 		$scope.getTowersByBuildingId();
@@ -268,6 +268,17 @@ $scope.editForm = function(){
 	if($scope.formEditMode == false){
 		$scope.formEditButtonText = "Cancel Edit";
 		$scope.formEditMode = true;
+
+		//owner_details  may be edited - copy the original owner  to the selected value so that they can 
+		//be displayed in the typeahead dropdown
+		for (var i =0; i<$scope.room.owner_details.current.length; i++) {
+
+			$scope.room.owner_details.current[i].userDetails={};
+			
+			$scope.room.owner_details.current[i].userDetails._id = $scope.room.owner_details.current[i]._id
+			$scope.room.owner_details.current[i].userDetails.name =$scope.room.owner_details.current[i].name;
+
+		}
 		return;
 	}
 
@@ -286,5 +297,51 @@ return $http.get('/aptmgmt/api/users/name/'+name).then(function(response){
 	return response.data;
 })};
 
+$scope.updateRoom = function(){
+	//console.log($scope.room);
+	$scope.restructureRoomDetail();
+	//make http call
+	$http.put('/aptmgmt/api/masterdata/building/tower/room/'+$scope.room._id, $scope.room).then(function(response){
+			console.log("finished http call");
+			console.log(response.data.status+" : "+response.data.message);
+			var statusCode = "F";
+			
+			if(response.data.status < 400)
+			{
+				statusCode= "S";
+			}
+
+			$scope.response = {
+				"status":statusCode,
+				"message":response.data.message
+			};
+
+			//call the getBuildingById method to refresh the building data from backend
+			$scope.getRoomById();
+			$scope.formEditMode =false;
+			$scope.formEditButtonText ="Edit";
+			
+		});
+
+
+};
+
+$scope.restructureRoomDetail = function(){
+	console.log($scope.room.owner_details.current.length);
+	if($scope.room.owner_details.current.length >0){
+		for (var i = 0; i<$scope.room.owner_details.current.length; i++) {
+			console.log("inside loop");
+			if($scope.room.owner_details.current[i].userDetails){
+				delete $scope.room.owner_details.current[i].id;
+				$scope.room.owner_details.current[i]._id= $scope.room.owner_details.current[i].userDetails._id;
+				delete $scope.room.owner_details.current[i].userDetails;
+
+			}
+			
+
+		}
+	}
+	console.log($scope.room);
+};
 
 }]);

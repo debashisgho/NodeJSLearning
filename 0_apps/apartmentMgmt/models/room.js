@@ -23,11 +23,11 @@ var roomSchema = mongoose.Schema({
 	owner_details:{ 
 
 			current:[{				
-				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
+				  	  _id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
 			}],		
 
 			previous:[{
-				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
+				_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true},
 				fromDate:{type:Date,required:true},
 				toDate:{type:Date,required:true}
 			}]			
@@ -37,7 +37,7 @@ var roomSchema = mongoose.Schema({
 	others:{
 
 			othersLiving:[{
-				id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
+				_id:{type : mongoose.Schema.Types.ObjectId, ref: 'User',requred: true}
 			}]
 
 		},
@@ -45,12 +45,12 @@ var roomSchema = mongoose.Schema({
 	rent_details:{ 
 
 			current:[{				
-				  	  id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
+				  	  _id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
 				  	  fromDate:{type:Date,required:true}
 			}],		
 
 			previous:[{
-					  id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
+					  _id:{type : mongoose.Schema.Types.ObjectId, ref: 'user',requred: true},
 					  fromDate:{type:Date,required:true},
 				      toDate:{type:Date,required:true}
 			}]
@@ -88,6 +88,11 @@ addRoom = function(room, callback){
 	Room.create(room, callback);
 };
 
+updateRoom = function(id, room,callback){
+	var searchOptions = {"_id":id};
+	console.log("/model/room.js- update called for id :"+id)
+	Room.findOneAndUpdate(searchOptions, room, callback);
+}
 getRoomsByTowerId= function(towerId,callback){
 	console.log("getRoomsByTowewrId called for towerid ="+towerId);
 	var searchOptions = {"tower":towerId};
@@ -107,4 +112,5 @@ getRoomById = function(roomId,callback){
 Room.addRoom =addRoom;
 Room.getRoomsByTowerId =getRoomsByTowerId;
 Room.getRoomById = getRoomById;
+Room.updateRoom = updateRoom;
 module.exports = Room ;

@@ -57,9 +57,14 @@
                               <a href="" class="input-group-addon nounderline" ng-click="deleteCurrentOwner()">
                               Remove</a> -->
 
-                              <input type="text" ng-model="room.owner_details[$index].userDetails" placeholder="Currently owned by" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuilding($viewValue)| limitTo:8" typeahead-loading="loadingMembers" 
-                                 typeahead-no-results="noResults" class="form-control" >
+                              <input type="text" ng-model="room.owner_details.current[$index].userDetails" placeholder="Currently owned by" uib-typeahead="member as member.name.last+','+member.name.first for member in getMembersOfBuilding($viewValue)| limitTo:8" typeahead-loading="loadingMembers" 
+                                 typeahead-no-results="noResults" class="form-control" ng-disabled="!formEditMode" ng-hide="!formEditMode">
                               <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+
+                              <span  ng-hide="formEditMode"  class="form-control">
+                              <a href="/aptmgmt/masterdata/user/{{room.owner_details.current[$index]._id}}">{{room.owner_details.current[$index].name.last}},{{room.owner_details.current[$index].name.first}}</a>
+                              </span>
+
                               <a href="" class="input-group-addon nounderline" ng-click="deleteCurrentOwner()">
                               Remove</a>
                               
@@ -188,7 +193,7 @@
                </uib-accordion>
 
 
-               <button type="submit" class="btn btn-primary">Update</button>
+               <button type="submit" class="btn btn-primary" ng-hide="!formEditMode">Update</button>
             </form>
          </div>
       </div>
