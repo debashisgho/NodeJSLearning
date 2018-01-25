@@ -285,7 +285,7 @@ $scope.editForm = function(){
 	if($scope.formEditMode == true){
 
 		$scope.formEditButtonText = "Edit";
-		$scope.formEditMode = false;
+		$scope.formEditMode = false; 
 		return;
 	}
 };
